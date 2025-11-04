@@ -1,6 +1,320 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
+/*
+====================================
+CSS VARIABLES & GLOBALS
+====================================
+*/
+:root {
+  /* Accessible Colors: Ensure high contrast */
+  --main-bg: #FFFFFF;
+  --dark-primary: #121929; /* Dark Blue - Main Nav/Text */
+  --light-accent: #f8f9fa; /* Light Gray - Background/Borders */
+  --cta-color: #d9534f;   /* Red - Call to Action */
+  --text-color: #333333;
+
+  /* Fonts */
+  --main-font: Helvetica, Arial, sans-serif;
+}
+
+*, *::before, *::after {
   box-sizing: border-box;
+}
+
+body {
+  font-family: var(--main-font);
+  margin: 0;
+  padding: 0;
+  background-color: var(--light-accent);
+  color: var(--text-color);
+}
+
+/* Clear list styles */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: var(--cta-color);
+  text-decoration: none;
+}
+
+/*
+====================================
+LAYOUT CONTAINER
+====================================
+*/
+#wrapper {
+  /* Checkered pattern background visible outside the main content area */
+  background-image: url('../images/site/checkerboard5.jpg'); 
+  background-size: 32px;
+  max-width: 1400px; 
+  margin: 0 auto;
+}
+
+main {
+  padding: 10px;
+  background-color: var(--main-bg); /* White background for main content area */
+  border: 1px solid #ccc;
+  max-width: 1200px; /* Constrain main content inside the wrapper */
+  margin: 0 auto;
+}
+
+/*
+====================================
+HEADER & TOP BAR STYLES
+====================================
+*/
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.sitename a {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--dark-primary);
+}
+
+#tools a {
+  font-size: 0.9em;
+  color: var(--dark-primary);
+  text-decoration: underline;
+}
+
+/*
+====================================
+NAVIGATION (Mobile First)
+====================================
+*/
+nav ul {
+  display: flex;
+  flex-wrap: wrap; /* Allows links to wrap on small screens */
+  background-color: var(--dark-primary);
+  border-top: 2px solid var(--cta-color);
+}
+
+nav li {
+  flex-grow: 1; /* Distribute space evenly */
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.2); /* Separator */
+}
+
+nav li:last-child {
+  border-right: none;
+}
+
+nav li a {
+  display: block;
+  padding: 12px 5px;
+  color: var(--main-bg);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  transition: background-color 0.2s;
+}
+
+nav li a:hover {
+  background-color: var(--cta-color);
+}
+
+/*
+====================================
+HOME VIEW (index.ejs) - Mobile First
+====================================
+*/
+#home-view h1 {
+  font-size: 1.5em;
+  margin: 10px 0 20px 0;
+}
+
+/* PROMO BANNER */
+#promo-banner {
+  display: flex;
+  flex-direction: column; /* Stack image and text vertically on mobile */
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.delorean-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: var(--dark-primary);
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.banner-text h2 {
+  font-size: 1.5em;
+  color: var(--cta-color);
+  margin: 0 0 5px 0;
+}
+
+.banner-text ul {
+  list-style: disc;
+  margin-left: 20px;
+  font-size: 0.9em;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: var(--cta-color);
+  color: var(--main-bg);
+  padding: 8px 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+}
+
+.cta-button:hover {
+  background-color: #a94442; /* Darker red on hover */
+}
+
+/* REVIEWS & UPGRADES */
+h2 {
+  border-bottom: 2px solid var(--light-accent);
+  padding-bottom: 5px;
+  margin-top: 20px;
+  font-size: 1.3em;
+}
+
+#reviews li {
+  margin-bottom: 8px;
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+#upgrades {
+  text-align: center;
+}
+
+.upgrade-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns for mobile upgrades */
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.upgrade-items a {
+  display: block;
+  background-color: #2a6496; /* Blue background for upgrade tiles */
+  padding: 10px;
+  border-radius: 5px;
+  transition: transform 0.2s;
+}
+
+.upgrade-items a:hover {
+  transform: translateY(-2px);
+}
+
+.upgrade-items img {
+  width: 80px;
+  height: auto;
+  margin: 0 auto 5px;
+}
+
+.upgrade-items p {
+  color: var(--main-bg);
+  margin: 0;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+/*
+====================================
+FOOTER STYLES
+====================================
+*/
+footer {
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  color: #666;
+  font-size: 0.8em;
+  margin-top: 20px;
+}
+
+/*
+====================================
+MEDIA QUERY (Large Screen Layout)
+====================================
+*/
+@media only screen and (min-width: 600px) {
+
+  /* HEADER & NAV Adjustments */
+  #top-header {
+      padding: 20px 30px;
+  }
+  
+  nav ul {
+      flex-wrap: nowrap; /* Keep links on one line */
+  }
+
+  /* HOME VIEW GRID */
+  #content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr; /* Reviews (2 units) | Upgrades (1 unit) */
+      gap: 30px;
+      margin-top: 30px;
+  }
+
+  #reviews {
+      order: 1; /* Reviews on the left */
+  }
+
+  #upgrades {
+      order: 2; /* Upgrades on the right */
+      text-align: left; /* Align text within the upgrades section */
+  }
+  
+  #upgrades h2 {
+      text-align: center; /* Center the title over the grid */
+  }
+
+  .upgrade-items {
+      grid-template-columns: 1fr 1fr; /* Still two columns, but constrained by the grid unit */
+  }
+
+  /* PROMO BANNER Adjustments */
+  #promo-banner {
+      flex-direction: row; /* Place image and text side-by-side */
+      align-items: center;
+      background-color: var(--light-accent);
+      padding: 20px;
+  }
+
+  .delorean-image {
+      /* Image positioning for large screen */
+      width: 60%; 
+      order: 2; /* Place image on the right */
+      margin-left: 20px;
+      position: relative;
+  }
+
+  .banner-text {
+      order: 1; /* Place text on the left */
+      position: static;
+      transform: none;
+      background: none; /* Remove background so text sits on the light-accent banner background */
+      padding: 0;
+      width: 40%;
+  }
+
+  .banner-text h2 {
+      font-size: 2em;
+  }
 }
