@@ -8,7 +8,7 @@ CSS VARIABLES & GLOBALS
   --main-bg: #FFFFFF;
   --dark-primary: #121929; /* Dark Blue - Main Nav/Text */
   --light-accent: #f8f9fa; /* Light Gray - Background/Borders */
-  --cta-color: #c74c49;   /* Red - Call to Action (Your preferred color) */
+  --cta-color: #c74c49;   /* Red - Call to Action (Your preferred color) */
   --text-color: #333333;
 
   /* Fonts */
@@ -19,17 +19,22 @@ CSS VARIABLES & GLOBALS
   box-sizing: border-box;
 }
 
+/* FIX 1: Set HTML/Body to full height to support min-height on #wrapper */
+html {
+  height: 100%;
+}
+
 body {
   font-family: var(--main-font);
   margin: 0;
   padding: 0;
   color: var(--text-color);
+  min-height: 100%; /* Ensure body uses full viewport height */
   
   /* *** APPLIED CHECKERBOARD TO BODY FOR FULL PAGE COVERAGE *** */
-  /* Using 'checkerboard32x32.png' (based on file list) as the image */
   background-image: url('../images/site/checkerboard.jpg'); 
   background-repeat: repeat; 
-  background-size: 32px 32px; /* Crucial for correct tiling */
+  background-size: 32px 32px; 
 }
 
 /* Clear list styles */
@@ -51,38 +56,44 @@ LAYOUT CONTAINER
 ====================================
 */
 #wrapper {
-  /* Only used to constrain the max width of the centered content block */
+  /* Set the maximum width and center the block */
   max-width: 1400px; 
   margin: 0 auto;
+  
+  /* FIX 2: Give the content area the white background and border */
+  background-color: var(--main-bg); 
+  border: 1px solid #ccc;
+
+  /* CRITICAL FIX: Force the white background to fill the screen height */
+  min-height: 100vh; /* 100% of the viewport height */
 }
 
 main {
-  /* This is the centered, white box that holds ALL content (header, nav, body, footer) */
-  padding: 0; /* Padding is added to individual sections */
-  background-color: var(--main-bg); 
-  border: 1px solid #ccc;
-  max-width: 1200px; 
-  margin: 0 auto;
+  /* Removed redundant rules. It is now a flexible container inside #wrapper */
+  padding: 0; 
 }
 
 /*
 ====================================
-HEADER & TOP BAR STYLES (applies to <header> partial content)
+HEADER & TOP BAR STYLES (Final Look)
 ====================================
 */
 header {
-    /* Added to space out content from the main box edge */
-    padding: 10px;
+  /* Header itself gets NO padding, letting its children control the space */
+  padding: 0;
 }
 
-#top-header {
+/* NEW SELECTOR: Targets the wrapper div inside header.ejs for side-by-side layout */
+#top-bar {
+  /* Padding is applied here to constrain content away from the edges */
+  padding: 10px;
+  
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Reset padding here as it's already on <header> */
-  padding: 0; 
-  /* Added separator between header and navigation/content */
-  border-bottom: 2px solid var(--light-accent); 
+
+  /* Visual separation line below the top bar */
+  border-bottom: 2px solid var(--light-accent);
 }
 
 .sitename a {
@@ -100,19 +111,31 @@ header {
 
 /*
 ====================================
-NAVIGATION (Mobile First)
+NAVIGATION (Final Look - Full-width inside wrapper)
 ====================================
 */
-nav ul {
-  display: flex;
-  flex-wrap: wrap; 
+nav {
+  /* Nav itself now gets the necessary background and border */
   background-color: var(--dark-primary);
   border-top: 2px solid var(--cta-color);
+
+  /* Apply padding to the nav element to pull links off the edges */
+  padding: 0 10px; 
+}
+
+nav ul {
+  /* Clear list styles (Already done in globals, but good practice) */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  /* Flex rules to spread out the links */
+  display: flex;
+  flex-wrap: wrap; 
   justify-content: space-around; 
 }
 
 nav li {
-  /* Removed flex-grow on mobile to match sample and prevent stretching */
   text-align: center;
   border-right: 1px solid rgba(255, 255, 255, 0.2); 
   flex-basis: 20%; 
@@ -142,7 +165,7 @@ HOME VIEW (index.ejs) - Mobile First
 ====================================
 */
 #home-view {
-    padding: 10px; /* Add padding to the page content */
+  padding: 10px; /* Add padding to the page content */
 }
 
 #home-view h1 {
@@ -234,7 +257,6 @@ h2 {
 
 .upgrade-items a {
   display: block;
-  /* Changed background color of upgrade tiles to match navigation blue for contrast */
   background-color: var(--dark-primary); 
   padding: 10px;
   border-radius: 5px;
@@ -275,59 +297,58 @@ MEDIA QUERY (Large Screen Layout: 600px+)
 */
 @media only screen and (min-width: 600px) {
 
-    /* NAVIGATION */
-    nav ul {
-        justify-content: center; 
-        flex-wrap: nowrap;
-    }
+  /* NAVIGATION */
+  nav ul {
+      justify-content: center; 
+      flex-wrap: nowrap;
+  }
 
-    /* PROMO BANNER */
-    #promo-banner {
-        flex-direction: row; 
-        align-items: center;
-        padding: 20px;
-    }
+  /* PROMO BANNER */
+  #promo-banner {
+      flex-direction: row; 
+      align-items: center;
+      padding: 20px;
+  }
 
-    .delorean-image {
-        width: 60%; 
-        order: 2; 
-        margin-left: 20px;
-    }
+  .delorean-image {
+      width: 60%; 
+      order: 2; 
+      margin-left: 20px;
+  }
 
-    .banner-text {
-        order: 1; 
-        position: static;
-        transform: none;
-        background: none; 
-        padding: 0;
-        width: 40%;
-        text-align: left;
-    }
-    
-    .banner-text h2 {
-        font-size: 2em;
-    }
+  .banner-text {
+      order: 1; 
+      position: static;
+      transform: none;
+      background: none; 
+      padding: 0;
+      width: 40%;
+      text-align: left;
+  }
+  
+  .banner-text h2 {
+      font-size: 2em;
+  }
 
-    /* REVIEWS & UPGRADES GRID - Matches Large Screen Sample (Upgrades Left, Reviews Right) */
-    #content-grid {
-        display: grid;
-        /* Updated: Upgrades (1fr) | Reviews (2fr) */
-        grid-template-columns: 1fr 2fr; 
-        gap: 30px;
-        margin-top: 30px;
-        padding: 0 10px 10px; /* Add padding to the grid container */
-    }
+  /* REVIEWS & UPGRADES GRID - Matches Large Screen Sample (Upgrades Left, Reviews Right) */
+  #content-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr; 
+      gap: 30px;
+      margin-top: 30px;
+      padding: 0 10px 10px; /* Add padding to the grid container */
+  }
 
-    #upgrades {
-        order: 1; 
-        text-align: center; 
-    }
-    
-    #upgrades h2 {
-        text-align: left; /* Title aligns left */
-    }
-    
-    #reviews {
-        order: 2; 
-    }
+  #upgrades {
+      order: 1; 
+      text-align: center; 
+  }
+  
+  #upgrades h2 {
+      text-align: left; /* Title aligns left */
+  }
+  
+  #reviews {
+      order: 2; 
+  }
 }
