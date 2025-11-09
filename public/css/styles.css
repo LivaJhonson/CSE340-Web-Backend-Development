@@ -264,7 +264,7 @@ h2 {
 }
 
 .upgrade-items img {
-  max-width: 80px; 
+  max-width: 98px; 
   height: auto;
   margin: 0 auto 5px;
 }
@@ -312,6 +312,8 @@ MEDIA QUERY (Large Screen Layout: 600px+)
 
   .delorean-image {
       width: 60%; 
+      max-width: 585px;
+      height: auto;
       order: 2; 
       margin-left: 20px;
   }
