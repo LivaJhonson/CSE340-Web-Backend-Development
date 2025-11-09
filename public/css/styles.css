@@ -8,10 +8,10 @@ CSS VARIABLES & GLOBALS
   --main-bg: #FFFFFF;
   --dark-primary: #121929; /* Dark Blue - Main Nav/Text */
   --light-accent: #f8f9fa; /* Light Gray - Background/Borders */
-  --cta-color: #c74c49;   /* Red - Call to Action (Your preferred color) */
-  --text-color: #333333;
+  --cta-color: #c74c49; /* Red - Call to Action (Your preferred color) */
+  --text-color: #333333; 
 
-  /* Fonts */
+   /* Fonts */
   --main-font: Helvetica, Arial, sans-serif;
 }
 
@@ -285,7 +285,7 @@ footer {
   padding: 10px;
   text-align: center;
   border-top: 1px solid #ddd;
-  color: 585858;
+  color: #585858;
   font-size: 0.8em;
   margin-top: 20px;
 }
