@@ -421,29 +421,130 @@ INVENTORY VIEW STYLES
   color: var(--cta-color);
 }
 
-/*
-====================================
-INVENTORY MEDIA QUERY (Tablet/Desktop: 600px+)
-====================================
+/* |--------------------------------------------------------------------------
+| Custom Styles for Vehicle Classification Grid
+|--------------------------------------------------------------------------
 */
-@media only screen and (min-width: 600px) {
-  .inventory-grid {
-    /* Larger screens: 3 columns */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-  }
 
-  /* Optional: Adjust layout for the Custom page to handle 6 items gracefully */
-  .inventory-grid.custom-grid {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+#inv-display {
+  --gap-size: 1.5rem; /* Standard gap between cards */
+  
+  /* 1. CENTER THE ENTIRE GRID */
+  max-width: 1200px; /* Limits the width for large screens */
+  margin: 0 auto; /* Centers the list horizontally on the page */
+  
+  /* Base Mobile Layout: Single Column */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap-size);
+  padding: var(--gap-size);
+  list-style: none;
+}
+
+/* Tablet Layout: Two Columns (Centered) */
+@media (min-width: 640px) {
+  #inv-display {
+      grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* For pages with only one item (like SUV), ensure it stays centered */
-@media only screen and (min-width: 600px) and (max-width: 1000px) {
-  .inventory-grid:has(.inventory-item:only-child) {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-    margin: 0 auto;
+/* Desktop Layout: Three Columns (Centered) */
+@media (min-width: 1024px) {
+  #inv-display {
+      grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* Large Desktop Layout: Four Columns (Centered) */
+@media (min-width: 1280px) {
+  #inv-display {
+      grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 2. STYLING FOR THE INDIVIDUAL VEHICLE CARDS (li) */
+#inv-display li {
+  border: 1px solid theme('colors.gray.200');
+  border-radius: 0.75rem; /* RESTORED BORDER RADIUS */
+  overflow: hidden; /* CRITICAL: Clips content (like images) to the rounded corners */
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+#inv-display li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 3. IMAGE STYLES: FULL VISIBILITY AND CENTERING */
+#inv-display a {
+  display: flex; /* Make the parent link a flex container */
+  justify-content: center; /* Center image horizontally */
+  align-items: center; /* Center image vertically */
+  height: 12rem; /* Give the container a fixed height */
+  background-color: theme('colors.gray.100'); /* Light background to define the frame */
+}
+
+#inv-display img {
+  max-width: 100%; /* Ensures image doesn't exceed container width */
+  max-height: 100%; /* Ensures image doesn't exceed container height */
+  height: auto;
+  width: auto;
+  object-fit: contain; /* Keeps the whole image visible (no cropping/zooming) */
+  display: block;
+  padding: 0; /* Removed padding to let the background color define the margin/frame */
+  margin: 0;
+}
+
+/* Style for the name and price section (bottom text) */
+.namePrice {
+  /* 4. CENTER PRICE/NAME TEXT */
+  text-align: center; 
+  padding: 0.75rem 1rem 1rem 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.namePrice hr {
+  border-color: theme('colors.indigo.100');
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  width: 80%; /* Shrink the HR element for better centering look */
+}
+
+.namePrice h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+.namePrice h2 a {
+  color: theme('colors.gray.800');
+  text-decoration: none;
+}
+
+.namePrice h2 a:hover {
+  color: theme('colors.indigo.600');
+}
+
+.namePrice span {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: theme('colors.green.600');
+}
+
+.notice {
+  text-align: center;
+  font-size: 1.5rem;
+  color: theme('colors.gray.600');
+  padding: 2rem;
+  grid-column: 1 / -1;
 }
