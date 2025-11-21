@@ -19,4 +19,13 @@ invCont.buildByClassificationId = async function (req, res, next) {
   })
 }
 
+/* ***************************
+ * Intentional 500 Error Test (For Assignment 3, Task 3)
+ * ************************** */
+invCont.throwIntentionalError = async function (req, res, next) {
+  // This line intentionally throws an error, which will be caught 
+  // by the utilities.handleErrors HOF and passed to the Express Error Handler.
+  throw new Error("This is an intentional 500 server error test for Assignment 3.")
+}
+
 module.exports = invCont

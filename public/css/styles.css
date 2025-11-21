@@ -290,6 +290,17 @@ footer {
   margin-top: 20px;
 }
 
+.copyright a {
+  /* Set the color to blue */
+  color: blue; 
+  
+  /* Ensure the underline is visible */
+  text-decoration: underline;
+  
+  /* Ensure it is distinguishable from other text */
+  font-weight: bold; 
+}
+
 /*
 ====================================
 MEDIA QUERY (Large Screen Layout: 600px+)
