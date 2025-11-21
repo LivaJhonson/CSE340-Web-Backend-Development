@@ -69,7 +69,7 @@ LAYOUT CONTAINER
 }
 
 main {
-  /* Removed redundant rules. It is now a flexible container inside #wrapper */
+  /* Removed redundant rules.a flexible container inside #wrapper */
   padding: 0; 
 }
 
@@ -124,7 +124,7 @@ nav {
 }
 
 nav ul {
-  /* Clear list styles (Already done in globals, but good practice) */
+  /* Clear list styles */
   list-style: none;
   padding: 0;
   margin: 0;
