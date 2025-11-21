@@ -620,7 +620,7 @@ ERROR PAGE BACKGROUND STYLES
 */
 
 .error-page-background {
-  /* **IMAGE SOURCE:** Ensure 'site-error-bg.jpg' exists in public/images */
+  /*IMAGE SOURCE:*/
   background-image: url('../images/crash.jfif'); 
   
   background-size: contain;
