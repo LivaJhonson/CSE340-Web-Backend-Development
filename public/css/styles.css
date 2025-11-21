@@ -579,7 +579,7 @@ VEHICLE DETAIL VIEW STYLES
 /* Highlight the price explicitly */
 .detail-list li:first-child span {
     font-size: 1.25rem;
-    color: #FFD700; /* Gold color for price */
+    color: #8a7400; /* Gold color for price */
 }
 
 /* --- DESKTOP LAYOUT: Image and Info Side-by-Side --- */
