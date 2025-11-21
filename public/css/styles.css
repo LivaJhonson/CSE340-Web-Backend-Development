@@ -409,7 +409,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
 
 /* 2. STYLING FOR THE INDIVIDUAL VEHICLE CARDS (li) */
 #inv-display li {
-  border: 1px solid theme('colors.gray.200');
+  border: 1px solid #E5E5E5;
   border-radius: 0.75rem; /* RESTORED BORDER RADIUS */
   overflow: hidden; /* CRITICAL: Clips content (like images) to the rounded corners */
   transition: transform 0.2s, box-shadow 0.2s;
@@ -429,7 +429,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   justify-content: center; /* Center image horizontally */
   align-items: center; /* Center image vertically */
   height: 12rem; /* Give the container a fixed height */
-  background-color: theme('colors.gray.100'); /* Light background to define the frame */
+  background-color: #F5F5F5; /* Light background to define the frame */
 }
 
 #inv-display img {
@@ -455,7 +455,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
 }
 
 .namePrice hr {
-  border-color: theme('colors.indigo.100');
+  border-color: #E0E7FF;
   margin-top: 0.25rem;
   margin-bottom: 0.75rem;
   width: 80%; /* Shrink the HR element for better centering look */
@@ -470,12 +470,12 @@ MEDIA QUERY (Large Screen Layout: 600px+)
 }
 
 .namePrice h2 a {
-  color: theme('colors.gray.800');
+  color: #262626;
   text-decoration: none;
 }
 
 .namePrice h2 a:hover {
-  color: theme('colors.indigo.600');
+  color: #4F46E5;
 }
 
 .namePrice span {
@@ -483,13 +483,13 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   margin-top: 0.5rem;
   font-size: 1.5rem;
   font-weight: 800;
-  color: theme('colors.green.600');
+  color: #16A34A;
 }
 
 .notice {
   text-align: center;
   font-size: 1.5rem;
-  color: theme('colors.gray.600');
+  color: #525252;
   padding: 2rem;
   grid-column: 1 / -1;
 }
