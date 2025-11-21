@@ -492,3 +492,168 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   padding: 2rem;
   grid-column: 1 / -1;
 }
+
+/*
+====================================
+VEHICLE DETAIL VIEW STYLES
+====================================
+*/
+
+#detail-view {
+  /* Center the container and give it a max width */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.detail-container {
+  /* White background for the whole section */
+  background-color: white;
+  border: 1px solid #E5E5E5; /* Light gray border */
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+/* --- TITLE STYLES --- */
+.detail-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #E0E7FF; /* Light blue border */
+  padding-bottom: 0.5rem;
+  color: #262626;
+}
+
+/* --- MOBILE LAYOUT: Stacking Image and Info --- */
+.detail-content-grid {
+  display: flex;
+  flex-direction: column; /* Stacks items vertically on mobile */
+  gap: 1.5rem;
+}
+
+/* --- IMAGE STYLES --- */
+.detail-img {
+  width: 100%;
+  max-height: 400px; /* Limit image height */
+  height: auto;
+  object-fit: contain;
+  background-color: #F5F5F5; /* Light background for the image frame */
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+/* --- INFO SECTION STYLES --- */
+.detail-info {
+  padding: 1rem;
+  border: 1px solid #E5E5E5;
+  border-radius: 0.5rem;
+}
+
+.detail-info h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #4F46E5; /* Blue accent color */
+  border-bottom: 1px solid #E0E7FF;
+  padding-bottom: 0.5rem;
+}
+
+.detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detail-list li {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.detail-list li span {
+  /* Style for the labels (Price, Description, Color, Miles) */
+  display: block;
+  font-weight: 700;
+  color: #262626; /* Dark text for labels */
+}
+
+/* Highlight the price explicitly */
+.detail-list li:first-child span {
+    font-size: 1.25rem;
+    color: #FFD700; /* Gold color for price */
+}
+
+/* --- DESKTOP LAYOUT: Image and Info Side-by-Side --- */
+@media (min-width: 768px) {
+  .detail-content-grid {
+    display: grid;
+    /* Two columns: Image (1.5 parts) and Info (1 part) */
+    grid-template-columns: 1.5fr 1fr; 
+    gap: 3rem;
+  }
+  
+  .detail-img {
+    padding: 0; /* Remove padding for larger screens */
+    max-width: none;
+    max-height: 100%;
+    /* Ensure image takes up space without stretching too much */
+    object-fit: scale-down; 
+  }
+
+  .detail-info {
+    /* Reduce padding/margin for better alignment in the grid */
+    padding: 0;
+    border: none;
+    border-left: 1px solid #E5E5E5; /* Add a vertical separator line */
+    padding-left: 2rem;
+  }
+
+  /* Make the main title wider on desktop */
+  .detail-title {
+    font-size: 2.5rem;
+  }
+}
+
+/*
+====================================
+ERROR PAGE BACKGROUND STYLES
+====================================
+*/
+
+.error-page-background {
+  /* **IMAGE SOURCE:** Ensure 'site-error-bg.jpg' exists in public/images */
+  background-image: url('../images/crash.jfif'); 
+  
+  background-size: contain;
+  background-position: center;
+  background-attachment: fixed; 
+  min-height: 100vh;
+  
+  /* Overlay for text readability */
+  background-color: rgba(0, 0, 0, 0.6); 
+  background-blend-mode: overlay;
+  
+  /* Center the error box */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.error-view {
+  /* Style the semi-transparent box over the image */
+  background-color: rgba(255, 255, 255, 0.9); 
+  padding: 2.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
+  max-width: 90%;
+  width: 450px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.error-view h1 {
+  color: #CC0000; 
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}

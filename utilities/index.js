@@ -57,6 +57,39 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+/* **************************************
+* Build the inventory detail view HTML
+* ************************************ */
+Util.buildDetailPage = async function (vehicle) {
+  // Use price formatting for currency and miles formatting for numbers
+  const formattedPrice = new Intl.NumberFormat('en-US', { 
+    style: 'currency', 
+    currency: 'USD',
+    minimumFractionDigits: 0 // Optional: remove cents if not needed, or use 2
+  }).format(vehicle.inv_price)
+
+  const formattedMiles = new Intl.NumberFormat('en-US').format(vehicle.inv_miles)
+
+  let detailHTML = `
+    <div class="detail-container">
+        <h1 class="detail-title">${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
+        <div class="detail-content-grid">
+            <img class="detail-img" src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+            <div class="detail-info">
+                <h2>${vehicle.inv_make} ${vehicle.inv_model} Details</h2>
+                <ul class="detail-list">
+                    <li><span>Price:</span> ${formattedPrice}</li>
+                    <li><span>Description:</span> ${vehicle.inv_description}</li>
+                    <li><span>Color:</span> ${vehicle.inv_color}</li>
+                    <li><span>Miles:</span> ${formattedMiles}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  `
+  return detailHTML
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
