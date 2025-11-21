@@ -428,7 +428,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   display: flex; /* Make the parent link a flex container */
   justify-content: center; /* Center image horizontally */
   align-items: center; /* Center image vertically */
-  height: 12rem; /* Give the container a fixed height */
+  height: 4rem; /* Give the container a fixed height */
   background-color: #F5F5F5; /* Light background to define the frame */
 }
 
@@ -447,7 +447,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
 .namePrice {
   /* 4. CENTER PRICE/NAME TEXT */
   text-align: center; 
-  padding: 0.75rem 1rem 1rem 1rem;
+  padding: 0.25rem 1rem 0.5rem 1rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -466,7 +466,6 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   font-weight: 600;
   margin: 0;
   line-height: 1.4;
-  flex-grow: 1;
 }
 
 .namePrice h2 a {
@@ -483,7 +482,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   margin-top: 0.5rem;
   font-size: 1.5rem;
   font-weight: 800;
-  color: #16A34A;
+  color: #897400;
 }
 
 .notice {
