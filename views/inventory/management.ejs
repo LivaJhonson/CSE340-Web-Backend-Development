@@ -1,0 +1,17 @@
+<% if (title) { %>
+    <h1><%- title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<%- messages() %>
+
+<div class="management-links">
+    <h2>Inventory Management</h2>
+    <p>Use the links below to add, edit, or delete inventory items.</p>
+    
+    <a href="/inv/add-classification" title="Add a New Classification">Add New Classification</a>
+    
+    <a href="/inv/add-inventory" title="Add a New Vehicle">Add New Inventory</a>
+
+    </div>

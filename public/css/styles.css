@@ -8,7 +8,7 @@ CSS VARIABLES & GLOBALS
   --main-bg: #FFFFFF;
   --dark-primary: #121929; /* Dark Blue - Main Nav/Text */
   --light-accent: #f8f9fa; /* Light Gray - Background/Borders */
-  --cta-color: #c74c49; /* Red - Call to Action (Your preferred color) */
+  --cta-color: #c74c49; /* Red - Call to Action*/
   --text-color: #333333; 
 
    /* Fonts */
@@ -19,7 +19,6 @@ CSS VARIABLES & GLOBALS
   box-sizing: border-box;
 }
 
-/* FIX 1: Set HTML/Body to full height to support min-height on #wrapper */
 html {
   height: 100%;
 }
@@ -29,12 +28,16 @@ body {
   margin: 0;
   padding: 0;
   color: var(--text-color);
-  min-height: 100%; /* Ensure body uses full viewport height */
+  min-height: 100%;
   
   /* *** APPLIED CHECKERBOARD TO BODY FOR FULL PAGE COVERAGE *** */
   background-image: url('../images/site/checkerboard.jpg'); 
   background-repeat: repeat; 
   background-size: 32px 32px; 
+}
+
+h1 {
+  margin-left: 5rem;
 }
 
 /* Clear list styles */
@@ -105,8 +108,12 @@ header {
 #tools a {
   font-size: 0.9em;
   color: var(--dark-primary);
-  text-decoration: underline;
+  text-decoration: none;
   font-weight: bold;
+  cursor: pointer;
+}
+#tools a:hover {
+  text-decoration: underline;
 }
 
 /*
@@ -349,7 +356,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
       grid-template-columns: 1fr 2fr; 
       gap: 30px;
       margin-top: 30px;
-      padding: 0 10px 10px; /* Add padding to the grid container */
+      padding: 0 10px 10px; 
   }
 
   #upgrades {
@@ -358,7 +365,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   }
   
   #upgrades h2 {
-      text-align: left; /* Title aligns left */
+      text-align: left; 
   }
   
   #reviews {
@@ -534,7 +541,7 @@ VEHICLE DETAIL VIEW STYLES
 /* --- IMAGE STYLES --- */
 .detail-img {
   width: 100%;
-  max-height: 400px; /* Limit image height */
+  max-height: 400px; 
   height: auto;
   object-fit: contain;
   background-color: #F5F5F5; /* Light background for the image frame */
@@ -553,7 +560,7 @@ VEHICLE DETAIL VIEW STYLES
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
-  color: #4F46E5; /* Blue accent color */
+  color: #4F46E5; 
   border-bottom: 1px solid #E0E7FF;
   padding-bottom: 0.5rem;
 }
@@ -573,13 +580,13 @@ VEHICLE DETAIL VIEW STYLES
   /* Style for the labels (Price, Description, Color, Miles) */
   display: block;
   font-weight: 700;
-  color: #262626; /* Dark text for labels */
+  color: #262626; 
 }
 
 /* Highlight the price explicitly */
 .detail-list li:first-child span {
     font-size: 1.25rem;
-    color: #8a7400; /* Gold color for price */
+    color: #8a7400;
 }
 
 /* --- DESKTOP LAYOUT: Image and Info Side-by-Side --- */
@@ -657,3 +664,354 @@ ERROR PAGE BACKGROUND STYLES
   font-size: 2.5rem;
   margin-bottom: 1rem;
 }
+
+/**********************
+========================
+STYLE FOR THE REGISTRATION AND LOGIN PAGES
+========================
+***********************/
+
+
+/* Container for the page */
+.registration-page, 
+.login-page {
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  align-items: center;    /* Center everything horizontally */
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 0.5rem;
+}
+
+/* Title and messages at top-left inside page container */
+.registration-info, 
+.login-info {
+  width: 100%;
+  text-align: left; /* Align left */
+  margin-bottom: 1.5rem;
+}
+
+/* Registration container */ /* Login container */
+.registration-wrapper, 
+.login-wrapper {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #1e2a38;
+  padding: 2rem;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Form labels Register & Login */
+.registration-wrapper label, 
+.login-wrapper label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Inputs Register & Login*/
+.registration-wrapper input[type="text"],
+.registration-wrapper input[type="email"],
+.registration-wrapper input[type="password"],
+.login-wrapper input[type="text"],
+.login-wrapper input[type="email"],
+.login-wrapper input[type="password"] {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Submit button */
+.registration-wrapper button,
+.login-wrapper button {
+  width: 50%;
+  padding: 0.75rem;
+  background: #4da3ff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #230000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.registration-wrapper button:hover,
+.login-wrapper button:hover {
+  background: #1c82e2;
+}
+
+/* Password requirements note */
+.password-note-inline {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: 1px dashed #79baff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #c0d8ff;
+  display: block; /* prevents weird wrapping */
+}
+
+/* Style for the "Show Password" toggle button */
+#pswdBtn,
+#loginPswdBtn {
+  border: 2px solid #000;
+  border-radius: 5px;
+  padding: 2px;
+  margin-top: 0.15rem; 
+  margin-bottom: 1rem;
+  font-size: small;
+  width: 7em;
+  text-align: center;
+  display: block; /* Makes it take up a full line for alignment */
+  cursor: pointer; /* Indicates it's clickable */
+  color: #fff; /* Assuming a dark background, set text color */
+  background-color: #555; /* Add a slight background */
+}
+
+#pswdBtn:hover {
+    background-color: #777;
+}
+
+/**********************
+========================
+STYLE FOR THE LOGIN PAGE ONLY
+========================
+***********************/
+
+/* “No account? Sign-up” link */
+.signup-link {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.signup-link a {
+  color: #79baff;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Styling for success/notice messages */
+.notice {
+  text-align: left;
+  list-style-type: disc;      
+  margin: 0 0 1rem 5rem;    
+  padding: 0;
+  font-weight: 400;          
+  font-size: 0.95rem;          
+  color: #18662a;             
+}
+
+/* ERROR MESSAGE - text only */
+.error {
+  list-style-type: disc;      
+  margin: 0 0 1rem 5rem;    
+  padding: 0;
+  font-weight: 400;          
+  font-size: 0.95rem;
+  color: #dc3545;            
+}
+
+/* Default input style */
+input {
+  border: 2px solid #ccc; 
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+/* Show invalid only after user interaction */
+input:required:invalid:focus,
+input:required:invalid:focus-visible,
+input:required:invalid.touched {
+  border: 2px solid #dc3545; 
+}
+
+/* Show valid border after user types a valid input */
+input:required:valid {
+  border: 2px solid #28a745; 
+}
+
+/* -------------------------------------------------------------------
+* Form Element Styling (Applies to add-classification & add-inventory)
+* ------------------------------------------------------------------- */
+
+#addClassForm, #addInventoryForm {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  background-color: #f9f9f9;
+}
+
+/* Fieldset and Legend for grouping */
+#addClassForm fieldset, #addInventoryForm fieldset {
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+#addClassForm legend, #addInventoryForm legend {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #006ee4; /* Primary brand color for headings */
+  padding: 0 10px;
+  margin-left: -10px;
+}
+
+/* Form Instructions */
+.form-instructions {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 15px;
+  padding-left: 5px;
+}
+
+/* Labels */
+#addClassForm label, #addInventoryForm label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Text Inputs, Select, and Textarea */
+#addClassForm input[type="text"], 
+#addInventoryForm input[type="text"], 
+#addInventoryForm input[type="number"],
+#addInventoryForm select,
+#addInventoryForm textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#addInventoryForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Focus State */
+#addClassForm input:focus, 
+#addInventoryForm input:focus,
+#addInventoryForm select:focus,
+#addInventoryForm textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+/* Invalid State (Client-side validation using :invalid pseudo-class) */
+#addClassForm input:invalid:not(:focus):not(:placeholder-shown),
+#addInventoryForm input:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: #dc3545; /* Red border for invalid input */
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Submit Button */
+#addClassForm button[type="submit"], 
+#addInventoryForm button[type="submit"] {
+  width: 50%;
+  padding: 12px;
+  margin-top: 25px;
+  background-color: #02761c; 
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: block;
+  margin: 1rem auto;
+}
+
+#addClassForm button[type="submit"]:hover, 
+#addInventoryForm button[type="submit"]:hover {
+  background-color: #0f581f; 
+  transform: translateY(-1px);
+}
+
+/* -------------------------------------------------------------------
+* Inventory Management View (management.ejs) Styles
+* ------------------------------------------------------------------- */
+
+.management-links {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.management-links h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.management-links p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.management-links a {
+  display: inline-block;
+  padding: 15px 30px;
+  margin: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  color: white;
+  background-color: #9d038f;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.management-links a:hover {
+  background-color: #7d1891;
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* -------------------------------------------------------------------
+* Responsiveness (Mobile First)
+* ------------------------------------------------------------------- */
+
+/* Adjust form padding and margins for smaller screens */
+@media screen and (max-width: 768px) {
+  #addClassForm, #addInventoryForm, .management-links {
+      margin: 1rem;
+      padding: 15px;
+  }
+}
+
+/* If you need specific styles for your classification list: */
+#classificationList {
+  /* Style the select list placeholder/default option */
+  color: #6c757d; 
+}
+#classificationList option:not(:first-child) {
+  color: #333;
+}
+

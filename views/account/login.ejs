@@ -1,0 +1,32 @@
+<div class="login-page">
+
+    <div class="login-info">
+        <h1><%= title %></h1>
+        <%- messages() %>
+    </div>
+
+    <div class="login-wrapper">
+        <form id="loginForm" action="/account/login" method="post">
+            <label for="account_email">Email:</label>
+            <input type="email" id="account_email" name="account_email" required>
+
+            <label for="account_password">Password:</label>
+            <input type="password" id="account_password" name="account_password" required>
+            
+            <span class="password-note-inline">
+                Passwords must be at least 12 characters and contain at least 1 number, 
+                1 capital letter and 1 special character.
+            </span>
+            
+            <span id="loginPswdBtn" class="password-toggle">Show Password</span>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="signup-link">
+            <p>No account? <a href="/account/register">Sign-up</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="/js/script.js"></script>

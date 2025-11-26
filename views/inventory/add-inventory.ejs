@@ -1,0 +1,69 @@
+<% if (title) { %>
+    <h1><%- title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="error">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+    </ul>
+<% } %>
+
+<form id="addInventoryForm" action="/inv/add-inventory" method="post">
+    <fieldset>
+        <legend>Add New Vehicle to Inventory</legend>
+        
+        <label for="classificationList">Classification:</label>
+        <%- classificationList %>
+
+        <label for="invMake">Make:</label>
+        <input type="text" id="invMake" name="inv_make" required minlength="3"
+            <% if(locals.inv_make) { %> value="<%= locals.inv_make %>" <% } %>
+        >
+
+        <label for="invModel">Model:</label>
+        <input type="text" id="invModel" name="inv_model" required minlength="3"
+            <% if(locals.inv_model) { %> value="<%= locals.inv_model %>" <% } %>
+        >
+
+        <label for="invYear">Year:</label>
+        <input type="number" id="invYear" name="inv_year" required min="1886" max="<%= new Date().getFullYear() + 1 %>"
+            <% if(locals.inv_year) { %> value="<%= locals.inv_year %>" <% } %>
+        >
+
+        <label for="invDescription">Description:</label>
+        <textarea id="invDescription" name="inv_description" required minlength="10"><% if(locals.inv_description) { %><%= locals.inv_description %><% } %></textarea>
+
+        <label for="invImage">Image Path (e.g., /images/vehicles/filename.jpg):</label>
+        <input type="text" id="invImage" name="inv_image" required 
+            <% if(locals.inv_image) { %> value="<%= locals.inv_image %>" <% } else { %> value="/images/vehicles/no-image.png" <% } %>
+        >
+
+        <label for="invThumbnail">Thumbnail Path (e.g., /images/vehicles/filename-tn.jpg):</label>
+        <input type="text" id="invThumbnail" name="inv_thumbnail" required 
+            <% if(locals.inv_thumbnail) { %> value="<%= locals.inv_thumbnail %>" <% } else { %> value="/images/vehicles/no-image-tn.png" <% } %>
+        >
+
+        <label for="invPrice">Price:</label>
+        <input type="number" id="invPrice" name="inv_price" required min="0" step=".01"
+            <% if(locals.inv_price) { %> value="<%= locals.inv_price %>" <% } %>
+        >
+
+        <label for="invMiles">Miles:</label>
+        <input type="number" id="invMiles" name="inv_miles" required min="0"
+            <% if(locals.inv_miles) { %> value="<%= locals.inv_miles %>" <% } %>
+        >
+
+        <label for="invColor">Color:</label>
+        <input type="text" id="invColor" name="inv_color" required
+            <% if(locals.inv_color) { %> value="<%= locals.inv_color %>" <% } %>
+        >
+
+        <button type="submit">Add Vehicle</button>
+    </fieldset>
+</form>

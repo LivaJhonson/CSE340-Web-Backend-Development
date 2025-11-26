@@ -10,6 +10,12 @@ const invCont = {}
 invCont.buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId
   const data = await invModel.getInventoryByClassificationId(classification_id)
+
+    // Prevent crash if no records found
+    if (!data || data.length === 0) {
+      throw new Error("No vehicles found for this classification.")
+    }
+  
   const grid = await utilities.buildClassificationGrid(data)
   let nav = await utilities.getNav()
   const className = data[0].classification_name
@@ -28,7 +34,7 @@ invCont.buildByInvId = async function (req, res, next) {
   const data = await invModel.getInventoryById(inv_id) // Get single vehicle data from Model
 
   // Error check: If no data is found, trigger a 404 error
-  if (!data) {
+  if (!data || data.length === 0) {
     // Since we are using utilities.handleErrors() in the route, we can simply throw an error
     // and Express will catch it and use the error view.
     throw new Error("Sorry, the vehicle you requested could not be found.")
@@ -53,6 +59,153 @@ invCont.throwIntentionalError = async function (req, res, next) {
   // This line intentionally throws an error, which will be caught 
   // by the utilities.handleErrors HOF and passed to the Express Error Handler.
   throw new Error("This is an intentional 500 server error test for Assignment 3.")
+}
+
+/* ***************************
+ * Build the Inventory Management View (Task 1)
+ * ************************** */
+invCont.buildManagementView = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/management", {
+    title: "Inventory Management",
+    nav,
+    messages: res.locals.messages, // To display flash messages
+  })
+}
+
+/* ***************************
+ * Deliver New Classification View (Task 2)
+ * ************************** */
+invCont.buildNewClassification = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/add-classification", {
+    title: "Add New Classification",
+    nav,
+    errors: null, // Start with no errors
+    messages: res.locals.messages,
+  })
+}
+
+/* ***************************
+ * Process New Classification (Task 2)
+ * ************************** */
+invCont.addClassification = async function (req, res) {
+  const { classification_name } = req.body
+
+  const classResult = await invModel.addClassification(classification_name)
+
+  if (classResult) {
+    req.flash(
+      "notice",
+      `The new classification "${classification_name}" was successfully added.`
+    )
+    // Rebuild navigation to show the new classification immediately
+    let nav = await utilities.getNav() 
+    
+    // Render the management view with success message
+    res.status(201).render("./inventory/management", {
+      title: "Inventory Management",
+      nav,
+      messages: res.locals.messages,
+    })
+  } else {
+    req.flash("error", "Sorry, the new classification addition failed.")
+    let nav = await utilities.getNav()
+    res.status(501).render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: null,
+      messages: res.locals.messages,
+    })
+  }
+}
+
+/* ***************************
+ * Deliver New Inventory View (Task 3)
+ * ************************** */
+invCont.buildNewInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  // Build the classification select list
+  let classificationList = await utilities.buildClassificationList()
+  
+  res.render("./inventory/add-inventory", {
+    title: "Add New Vehicle",
+    nav,
+    classificationList,
+    errors: null,
+    messages: res.locals.messages,
+    // Pass empty values for sticky form defaults
+    inv_make: "", 
+    inv_model: "", 
+    inv_year: "", 
+    inv_description: "", 
+    inv_image: "/images/vehicles/no-image.png", // Use default path
+    inv_thumbnail: "/images/vehicles/no-image-tn.png", // Use default path
+    inv_price: "", 
+    inv_miles: "", 
+    inv_color: "", 
+  })
+}
+
+/* ***************************
+ * Process New Inventory (Task 3)
+ * ************************** */
+invCont.addInventory = async function (req, res) {
+  const { 
+    inv_make, 
+    inv_model, 
+    inv_year, 
+    inv_description, 
+    inv_image, 
+    inv_thumbnail, 
+    inv_price, 
+    inv_miles, 
+    inv_color, 
+    classification_id 
+  } = req.body
+
+  const invResult = await invModel.addInventory(
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+  )
+
+  if (invResult) {
+    req.flash(
+      "notice",
+      `The new vehicle, ${inv_make} ${inv_model}, was successfully added.`
+    )
+    let nav = await utilities.getNav()
+    
+    // Navigate back to the management view
+    res.status(201).render("./inventory/management", {
+      title: "Inventory Management",
+      nav,
+      messages: res.locals.messages,
+    })
+  } else {
+    req.flash("error", "Sorry, the vehicle addition failed.")
+    let nav = await utilities.getNav()
+    let classificationList = await utilities.buildClassificationList(classification_id)
+
+    // Render the add-inventory view with failure message
+    res.status(501).render("./inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      classificationList,
+      errors: null,
+      // Pass back all form data for stickiness
+      inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, 
+      messages: res.locals.messages,
+    })
+  }
 }
 
 module.exports = invCont
