@@ -18,7 +18,8 @@ const pool = require('./database/')
 const accountRoute = require("./routes/accountRoute")
 // 4: Body-parser
 const bodyParser = require("body-parser")
-
+// JWT and Cookie REQUIREMENT: Require cookie-parser
+const cookieParser = require("cookie-parser")
 
 
 /* ***********************
@@ -39,12 +40,18 @@ app.use(session({
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+// JWT and Cookie REQUIREMENT: Middleware for cookie-parser
+app.use(cookieParser())
+
 // Express Messages Middleware
 app.use(require('connect-flash')())
 app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+
+// JWT and Cookie REQUIREMENT: Global middleware to check for a JWT token
+app.use(utilities.checkJWTToken)
 
 
 /* ***********************
@@ -69,7 +76,7 @@ app.use("/inv", inventoryRoute)
 // Account routes
 app.use("/account", accountRoute)
 
- // File Not Found Route
+// File Not Found Route
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
   })

@@ -1015,3 +1015,262 @@ input:required:valid {
   color: #333;
 }
 
+/* --- Account Management View Styles --- */
+
+/* Main container and card layout */
+.account-management-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+/* Headers */
+.account-management-container h1 {
+    color: #333;
+    font-size: 2.2em;
+    margin-bottom: 5px;
+}
+
+.welcome-message {
+    color: #007bff; /* Primary brand color */
+    font-size: 1.6em;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.management-text {
+    color: #555;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+/* Flash and Error Messages */
+/* Assuming 'messages()' output uses a '.notice' or similar container */
+.notice, .error-notice {
+    list-style: none;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: left;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+
+.notice {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.error-notice {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+
+/* Action Buttons Container */
+.management-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+/* Button Styling (General) */
+.action-button {
+    display: block;
+    padding: 14px 25px;
+    font-size: 1.1em;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.2s, transform 0.1s;
+    text-align: center;
+}
+
+/* Primary Action Button (e.g., Update Info, Log In) */
+.primary-action {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+}
+
+.primary-action:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* Secondary Action Button (e.g., Inventory Management) */
+.secondary-action {
+    background-color: #6c757d;
+    color: white;
+    border: 1px solid #6c757d;
+}
+
+.secondary-action:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Logout Button (Distinct Color) */
+.logout-action {
+    background-color: #dc3545; /* Red for emphasis/warning */
+    color: white;
+    border: 1px solid #dc3545;
+    margin-top: 10px; /* Separator for the log out action */
+}
+
+.logout-action:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (min-width: 600px) {
+    .management-actions {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .action-button {
+        width: auto;
+        min-width: 250px;
+    }
+}
+
+/* --- Account Management View Styles --- */
+
+/* Main container and card layout */
+.account-management-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+/* Headers */
+.account-management-container h1 {
+  color: #333;
+  font-size: 2.2em;
+  margin-bottom: 5px;
+}
+
+.welcome-message {
+  color: #007bff; /* Primary brand color */
+  font-size: 1.6em;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.management-text {
+  color: #555;
+  font-size: 1.1em;
+  margin-bottom: 30px;
+}
+
+/* Flash and Error Messages */
+/* Assuming 'messages()' output uses a '.notice' or similar container */
+.notice, .error-notice {
+  list-style: none;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  text-align: left;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.notice {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+.error-notice {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
+}
+
+
+/* Action Buttons Container */
+.management-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+/* Button Styling (General) */
+.action-button {
+  display: block;
+  padding: 14px 25px;
+  font-size: 1.1em;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.2s, transform 0.1s;
+  text-align: center;
+}
+
+/* Primary Action Button (e.g., Update Info, Log In) */
+.primary-action {
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+.primary-action:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* Secondary Action Button (e.g., Inventory Management) */
+.secondary-action {
+  background-color: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+}
+
+.secondary-action:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+/* Logout Button (Distinct Color) */
+.logout-action {
+  background-color: #dc3545; /* Red for emphasis/warning */
+  color: white;
+  border: 1px solid #dc3545;
+  margin-top: 10px; /* Separator for the log out action */
+}
+
+.logout-action:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (min-width: 600px) {
+  .management-actions {
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+  }
+  .action-button {
+      width: auto;
+      min-width: 250px;
+  }
+}

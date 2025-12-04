@@ -1,0 +1,35 @@
+<%- messages() %>
+
+<div class="account-management-container">
+    <% if (errors && errors.length > 0) { %>
+        <ul class="error-notice">
+            <% errors.forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <!-- Main content for the logged-in user -->
+    <h1><%= title %></h1>
+    <% // Accessing 'loggedin' and 'accountData' directly from locals, as defined by JWT middleware %>
+    <% if (loggedin) { %>
+        <h2 class="welcome-message">Welcome <%= accountData.account_firstname %></h2>
+        <p class="management-text">You are successfully logged in. Use the links below to manage your account and content.</p>
+
+        <div class="management-actions">
+            <a href="/account/update" class="action-button primary-action">Update Account Information</a>
+            
+            <% // Check for Employee or Admin account type for Inventory link %>
+            <% if (accountData.account_type === 'Employee' || accountData.account_type === 'Admin') { %>
+                <a href="/inv" class="action-button secondary-action">Inventory Management</a>
+            <% } %>
+            
+            <a href="/account/logout" class="action-button logout-action">Log Out</a>
+        </div>
+    <% } else { %>
+        <p class="management-text">You must be logged in to view this page.</p>
+        <div class="management-actions">
+            <a href="/account/login" class="action-button primary-action">Log In Here</a>
+        </div>
+    <% } %>
+</div>

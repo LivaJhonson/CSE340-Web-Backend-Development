@@ -7,8 +7,7 @@ const regValidate = require('../utilities/account-validation')
 // GET login route
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
-// POST login route
-router.post("/login", utilities.handleErrors(accountController.loginAccount))
+// NOTE: The previous POST /login route has been replaced below.
 
 // GET registration route
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
@@ -21,14 +20,26 @@ router.post(
     regValidate.registationRules(),
     regValidate.checkRegData,
     utilities.handleErrors(accountController.registerAccount)
-  )
-
-  // Process the login attempt
+)
+  
+// *****************************************************************
+// JWT and Cookie REQUIREMENT: Process the login request
+// This route now applies validation rules and calls the new controller function.
+// *****************************************************************
 router.post(
   "/login",
-  (req, res) => {
-    res.status(200).send('login process')
-  }
+  regValidate.loginRules(),             // Validation rules for login data
+  regValidate.checkLoginData,           // Check for and handle validation errors
+  utilities.handleErrors(accountController.accountLogin) // New function to authenticate and set JWT
 )
-  
+
+// *****************************************************************
+// JWT and Cookie REQUIREMENT: Route to deliver the Account Management view
+// This route is the redirect target after a successful login.
+// *****************************************************************
+router.get(
+    "/",
+    utilities.handleErrors(accountController.buildAccountManagement)
+)
+  
 module.exports = router
