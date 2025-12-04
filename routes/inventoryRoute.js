@@ -5,86 +5,106 @@ const invController = require("../controllers/invController")
 const utilities = require("../utilities/")
 const invValidate = require("../utilities/inv-validation")
 
-// Route to build inventory by classification view
+/* **********************************************
+ * Inventory by Classification View
+ ********************************************** */
 router.get(
   "/type/:classificationId",
   utilities.handleErrors(invController.buildByClassificationId)
 )
 
-// Route to build inventory detail view
-// This route uses the invId parameter to fetch the specific vehicle details
+/* **********************************************
+ * Inventory Detail View
+ ********************************************** */
 router.get(
   "/detail/:invId",
   utilities.handleErrors(invController.buildByInvId)
 )
 
-// Intentional 500 Error Route
+/* **********************************************
+ * Intentional 500 Error Route
+ ********************************************** */
 router.get(
   "/throwerror",
   utilities.handleErrors(invController.throwIntentionalError)
 )
 
-// **********************************************
-// AJAX ROUTE (New)
-// **********************************************
-// Route to get inventory items based on classification ID (AJAX route)
-// This route is called by client-side JavaScript to fetch data as JSON.
+/* **********************************************
+ * AJAX Route – Returns Inventory as JSON
+ ********************************************** */
 router.get(
   "/getInventory/:classification_id",
   utilities.handleErrors(invController.getInventoryJSON)
 )
 
-// **********************************************
-// Management View Routes (Task 1) - NOW PROTECTED
-// **********************************************
-// Route to build the Inventory Management view
+/* **********************************************
+ * Management View (Protected)
+ ********************************************** */
 router.get(
   "/", 
-  utilities.checkLogin,             // Requires user to be logged in
-  utilities.checkAuthorization,     // Requires 'Employee' or 'Admin' role
+  utilities.checkLogin,
+  utilities.checkAuthorization,
   utilities.handleErrors(invController.buildManagementView)
 )
 
-// **********************************************
-// Add Classification Routes (Task 2) - NOW PROTECTED
-// **********************************************
-// Route to deliver the add-classification view
+/* **********************************************
+ * Add Classification (Protected)
+ ********************************************** */
 router.get(
   "/add-classification",
-  utilities.checkLogin,             // Requires user to be logged in
-  utilities.checkAuthorization,     // Requires 'Employee' or 'Admin' role
+  utilities.checkLogin,
+  utilities.checkAuthorization,
   utilities.handleErrors(invController.buildNewClassification)
 )
 
-// Route to process the new classification submission
 router.post(
   "/add-classification",
-  utilities.checkLogin,             // Requires user to be logged in
-  utilities.checkAuthorization,     // Requires 'Employee' or 'Admin' role
-  invValidate.classificationRules(), // Server-side validation rules
-  invValidate.checkClassificationData, // Check for errors and handle sticky form/errors
-  utilities.handleErrors(invController.addClassification) // Process the submission
+  utilities.checkLogin,
+  utilities.checkAuthorization,
+  invValidate.classificationRules(),
+  invValidate.checkClassificationData,
+  utilities.handleErrors(invController.addClassification)
 )
 
-// **********************************************
-// Add Inventory Item Routes (Task 3) - NOW PROTECTED
-// **********************************************
-// Route to deliver the add-inventory view
+/* **********************************************
+ * Add Inventory Item (Protected)
+ ********************************************** */
 router.get(
   "/add-inventory",
-  utilities.checkLogin,             // Requires user to be logged in
-  utilities.checkAuthorization,     // Requires 'Employee' or 'Admin' role
+  utilities.checkLogin,
+  utilities.checkAuthorization,
   utilities.handleErrors(invController.buildNewInventory)
 )
 
-// Route to process the new inventory item submission
 router.post(
   "/add-inventory",
-  utilities.checkLogin,             // Requires user to be logged in
-  utilities.checkAuthorization,     // Requires 'Employee' or 'Admin' role
-  invValidate.inventoryRules(),     // Server-side validation rules
-  invValidate.checkInventoryData,   // Check for errors and handle sticky form/errors
-  utilities.handleErrors(invController.addInventory) // Process the submission
+  utilities.checkLogin,
+  utilities.checkAuthorization,
+  invValidate.inventoryRules(),
+  invValidate.checkInventoryData,
+  utilities.handleErrors(invController.addInventory)
+)
+
+/* **********************************************
+ * Edit Inventory (Protected)
+ ********************************************** */
+router.get(
+  "/edit/:inv_id",
+  utilities.checkLogin,
+  utilities.checkAuthorization,
+  utilities.handleErrors(invController.editInventoryView)
+)
+
+/* **********************************************
+ * Update Inventory (Protected)
+ ********************************************** */
+router.post(
+  "/update",
+  utilities.checkLogin,
+  utilities.checkAuthorization,
+  invValidate.inventoryRules(),
+  invValidate.checkInventoryData,
+  utilities.handleErrors(invController.updateInventory)
 )
 
 module.exports = router

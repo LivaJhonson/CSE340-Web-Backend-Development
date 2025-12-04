@@ -1,0 +1,82 @@
+<% if (title) { %>
+    <h1><%- title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="error">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+    </ul>
+<% } %>
+
+<div class="center-wrapper">
+    <!-- 
+      Action changed to /inv/update and method remains POST.
+      novalidate is added to rely solely on server-side validation (Express Validator).
+    -->
+    <form id="editInventoryForm" action="/inv/update" method="post" novalidate>
+      <fieldset>
+        <legend>Modify Vehicle Information</legend>
+ 
+        <label for="classificationSelect">Classification:</label>
+        <!-- 
+          classificationSelect is now passed with the item's classification_id 
+          pre-selected, thanks to the controller function.
+        -->
+        <%- classificationSelect %>
+ 
+        <label for="invMake">Make:</label>
+        <!-- All input fields are pre-populated with the data passed from the controller (locals). -->
+        <input type="text" id="invMake" name="inv_make" required minlength="3"
+          <% if(locals.inv_make) { %> value="<%= locals.inv_make %>" <% } %>>
+ 
+        <label for="invModel">Model:</label>
+        <input type="text" id="invModel" name="inv_model" required minlength="3"
+          <% if(locals.inv_model) { %> value="<%= locals.inv_model %>" <% } %>>
+ 
+        <label for="invYear">Year:</label>
+        <input type="number" id="invYear" name="inv_year" required min="1886" max="<%= new Date().getFullYear() + 1 %>"
+          <% if(locals.inv_year) { %> value="<%= locals.inv_year %>" <% } %>>
+ 
+        <label for="invDescription">Description:</label>
+        <!-- Textarea content is placed between the tags, not in a value attribute. -->
+        <textarea id="invDescription" name="inv_description" required minlength="10"><% if(locals.inv_description) { %><%= locals.inv_description %><% } %></textarea>
+ 
+        <label for="invImage">Image Path (e.g., /images/vehicles/filename.jpg):</label>
+        <input type="text" id="invImage" name="inv_image" required
+          <% if(locals.inv_image) { %> value="<%= locals.inv_image %>" <% } %>>
+ 
+        <label for="invThumbnail">Thumbnail Path (e.g., /images/vehicles/filename-tn.jpg):</label>
+        <input type="text" id="invThumbnail" name="inv_thumbnail" required
+          <% if(locals.inv_thumbnail) { %> value="<%= locals.inv_thumbnail %>" <% } %>>
+ 
+        <label for="invPrice">Price:</label>
+        <!-- Ensure price is pre-populated correctly. -->
+        <input type="number" id="invPrice" name="inv_price" required min="0" step=".01"
+          <% if(locals.inv_price) { %> value="<%= locals.inv_price %>" <% } %>>
+ 
+        <label for="invMiles">Miles:</label>
+        <input type="number" id="invMiles" name="inv_miles" required min="0"
+          <% if(locals.inv_miles) { %> value="<%= locals.inv_miles %>" <% } %>>
+ 
+        <label for="invColor">Color:</label>
+        <input type="text" id="invColor" name="inv_color" required
+          <% if(locals.inv_color) { %> value="<%= locals.inv_color %>" <% } %>>
+
+        <!-- 
+          Hidden input to retain the inventory ID when the form is posted. 
+          This is crucial for Step 2 to know which vehicle to update in the database. 
+        -->
+        <input type="hidden" name="inv_id"
+        <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
+ 
+        <!-- Change submit button value -->
+        <button type="submit">Update Vehicle</button>
+      </fieldset>
+    </form>
+  </div>

@@ -8,16 +8,15 @@ const validate = {}
  * ********************************* */
 validate.classificationRules = () => {
   return [
-    // Classification name is required, must not contain spaces or special characters, and cannot already exist
     body("classification_name")
       .trim()
       .isLength({ min: 1 })
       .withMessage("Please provide a classification name.")
-      .matches(/^[A-Za-z0-9]+$/) // Must contain only letters and numbers (no spaces/special chars)
+      .matches(/^[A-Za-z0-9]+$/)
       .withMessage("Classification name cannot contain spaces or special characters.")
       .custom(async (classification_name) => {
         const classificationExists = await invModel.checkExistingClassification(classification_name)
-        if (classificationExists){
+        if (classificationExists) {
           throw new Error("Classification already exists.")
         }
       }),
@@ -37,7 +36,7 @@ validate.checkClassificationData = async (req, res, next) => {
       title: "Add New Classification",
       nav,
       errors,
-      classification_name, // Sticky Form (even though it's one field)
+      classification_name,
       messages: res.locals.messages,
     })
     return
@@ -66,9 +65,9 @@ validate.inventoryRules = () => {
 
     body("inv_year")
       .trim()
-      .isInt({ min: 1886, max: new Date().getFullYear() + 1 }) // Check for reasonable year
+      .isInt({ min: 1886, max: new Date().getFullYear() + 1 })
       .withMessage("Year must be a valid four-digit number."),
-    
+
     body("inv_description")
       .trim()
       .isLength({ min: 10 })
@@ -104,43 +103,60 @@ validate.inventoryRules = () => {
 }
 
 /* ************************************
- * Check inventory data and return errors
+ * Check inventory data and return errors (FIXED)
  * ********************************** */
 validate.checkInventoryData = async (req, res, next) => {
-  const { 
-    inv_make, 
-    inv_model, 
-    inv_year, 
-    inv_description, 
-    inv_image, 
-    inv_thumbnail, 
-    inv_price, 
-    inv_miles, 
-    inv_color, 
-    classification_id 
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
   } = req.body
 
   let errors = validationResult(req)
 
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
-    let classificationList = await utilities.buildClassificationList(classification_id) // Rebuild the list with sticky classification
-    
-    res.render("./inventory/add-inventory", {
-      title: "Add New Vehicle",
+    const classificationSelect = await utilities.buildClassificationList(classification_id)
+
+    let viewName
+    let titleName
+
+    // Determine which view to render
+    if (inv_id) {
+      viewName = "./inventory/edit-inventory"
+      titleName = "Edit " + inv_make + " " + inv_model
+    } else {
+      viewName = "./inventory/add-inventory"
+      titleName = "Add New Vehicle"
+    }
+
+    res.render(viewName, {
+      title: titleName,
       nav,
-      classificationList,
+      classificationSelect,
       errors,
-      // Sticky Form Data
-      inv_make, 
-      inv_model, 
-      inv_year, 
-      inv_description, 
-      inv_image, 
-      inv_thumbnail, 
-      inv_price, 
-      inv_miles, 
-      inv_color, 
+
+      // Sticky data
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+
       messages: res.locals.messages,
     })
     return
