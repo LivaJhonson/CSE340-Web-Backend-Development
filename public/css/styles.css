@@ -9,10 +9,32 @@ CSS VARIABLES & GLOBALS
   --dark-primary: #121929; /* Dark Blue - Main Nav/Text */
   --light-accent: #f8f9fa; /* Light Gray - Background/Borders */
   --cta-color: #c74c49; /* Red - Call to Action*/
-  --text-color: #333333; 
+  --text-color: #333333;
 
-   /* Fonts */
+  /* Fonts */
   --main-font: Helvetica, Arial, sans-serif;
+  
+  /* Form Colors */
+  --form-bg: #1e2a38;
+  --form-text: #fff;
+  --form-link: #79baff;
+  --form-button: #4da3ff;
+  --form-button-hover: #1c82e2;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --valid-border: #28a745;
+  --invalid-border: #dc3545;
+  
+  /* Account Management Colors (for context) */
+  --acct-primary: #007bff;
+  --acct-secondary: #6c757d;
+  --acct-logout: #dc3545;
+  --acct-success-bg: #d4edda;
+  --acct-success-text: #155724;
+  --acct-success-border: #c3e6cb;
+  --acct-error-bg: #f8d7da;
+  --acct-error-text: #721c24;
+  --acct-error-border: #f5c6cb;
 }
 
 *, *::before, *::after {
@@ -30,7 +52,7 @@ body {
   color: var(--text-color);
   min-height: 100%;
   
-  /* *** APPLIED CHECKERBOARD TO BODY FOR FULL PAGE COVERAGE *** */
+  /* Checkerboard Background */
   background-image: url('../images/site/checkerboard.jpg'); 
   background-repeat: repeat; 
   background-size: 32px 32px; 
@@ -48,7 +70,6 @@ ul {
 }
 
 a {
-  /* Links in the header/footer */
   color: var(--dark-primary); 
   text-decoration: none;
 }
@@ -59,43 +80,31 @@ LAYOUT CONTAINER
 ====================================
 */
 #wrapper {
-  /* Set the maximum width and center the block */
   max-width: 1400px; 
   margin: 0 auto;
-  
-  /* FIX 2: Give the content area the white background and border */
   background-color: var(--main-bg); 
   border: 1px solid #ccc;
-
-  /* CRITICAL FIX: Force the white background to fill the screen height */
-  min-height: 100vh; /* 100% of the viewport height */
+  min-height: 100vh;
 }
 
 main {
-  /* Removed redundant rules.a flexible container inside #wrapper */
   padding: 0; 
 }
 
 /*
 ====================================
-HEADER & TOP BAR STYLES (Final Look)
+HEADER & TOP BAR STYLES
 ====================================
 */
 header {
-  /* Header itself gets NO padding, letting its children control the space */
   padding: 0;
 }
 
-/* NEW SELECTOR: Targets the wrapper div inside header.ejs for side-by-side layout */
 #top-bar {
-  /* Padding is applied here to constrain content away from the edges */
   padding: 10px;
-  
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  /* Visual separation line below the top bar */
   border-bottom: 2px solid var(--light-accent);
 }
 
@@ -118,25 +127,19 @@ header {
 
 /*
 ====================================
-NAVIGATION (Final Look - Full-width inside wrapper)
+NAVIGATION
 ====================================
 */
 nav {
-  /* Nav itself now gets the necessary background and border */
   background-color: var(--dark-primary);
   border-top: 2px solid var(--cta-color);
-
-  /* Apply padding to the nav element to pull links off the edges */
   padding: 0 10px; 
 }
 
 nav ul {
-  /* Clear list styles */
   list-style: none;
   padding: 0;
   margin: 0;
-  
-  /* Flex rules to spread out the links */
   display: flex;
   flex-wrap: wrap; 
   justify-content: space-around; 
@@ -168,11 +171,11 @@ nav li a:hover {
 
 /*
 ====================================
-HOME VIEW (index.ejs) - Mobile First
+HOME VIEW (index.ejs)
 ====================================
 */
 #home-view {
-  padding: 10px; /* Add padding to the page content */
+  padding: 10px;
 }
 
 #home-view h1 {
@@ -180,7 +183,7 @@ HOME VIEW (index.ejs) - Mobile First
   margin: 10px 0 20px 0;
 }
 
-/* PROMO BANNER */
+/* --- PROMO BANNER --- */
 #promo-banner {
   display: flex;
   flex-direction: column; 
@@ -222,7 +225,7 @@ HOME VIEW (index.ejs) - Mobile First
 .cta-button {
   display: inline-block;
   background-color: var(--cta-color);
-  color: var(--main-bg); /* Use white text over red CTA background */
+  color: var(--main-bg);
   padding: 8px 15px;
   border-radius: 5px;
   margin-top: 10px;
@@ -236,7 +239,7 @@ HOME VIEW (index.ejs) - Mobile First
   background-color: #a94442; 
 }
 
-/* REVIEWS & UPGRADES - Mobile Layout (Stacking) */
+/* --- REVIEWS & UPGRADES --- */
 h2 {
   border-bottom: 2px solid var(--light-accent);
   padding-bottom: 5px;
@@ -285,7 +288,7 @@ h2 {
 
 /*
 ====================================
-FOOTER STYLES (now inside <footer>)
+FOOTER STYLES
 ====================================
 */
 footer {
@@ -298,94 +301,21 @@ footer {
 }
 
 .copyright a {
-  /* Set the color to blue */
   color: blue; 
-  
-  /* Ensure the underline is visible */
   text-decoration: underline;
-  
-  /* Ensure it is distinguishable from other text */
   font-weight: bold; 
 }
 
 /*
 ====================================
-MEDIA QUERY (Large Screen Layout: 600px+)
+CLASSIFICATION GRID STYLES
 ====================================
-*/
-@media only screen and (min-width: 600px) {
-
-  /* NAVIGATION */
-  nav ul {
-      justify-content: center; 
-      flex-wrap: nowrap;
-  }
-
-  /* PROMO BANNER */
-  #promo-banner {
-      flex-direction: row; 
-      align-items: center;
-      padding: 20px;
-  }
-
-  .delorean-image {
-      width: 60%; 
-      max-width: 585px;
-      height: auto;
-      order: 2; 
-      margin-left: 20px;
-  }
-
-  .banner-text {
-      order: 1; 
-      position: static;
-      transform: none;
-      background: none; 
-      padding: 0;
-      width: 40%;
-      text-align: left;
-  }
-  
-  .banner-text h2 {
-      font-size: 2em;
-  }
-
-  /* REVIEWS & UPGRADES GRID - Matches Large Screen Sample (Upgrades Left, Reviews Right) */
-  #content-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr; 
-      gap: 30px;
-      margin-top: 30px;
-      padding: 0 10px 10px; 
-  }
-
-  #upgrades {
-      order: 1; 
-      text-align: center; 
-  }
-  
-  #upgrades h2 {
-      text-align: left; 
-  }
-  
-  #reviews {
-      order: 2; 
-  }
-}
-
-/* |--------------------------------------------------------------------------
-| Custom Styles for Vehicle Classification Grid
-|--------------------------------------------------------------------------
 */
 
 #inv-display {
-  --gap-size: 1.5rem; /* Standard gap between cards */
-  
-  /* 1. CENTER THE ENTIRE GRID */
-  max-width: 1200px; /* Limits the width for large screens */
-  margin: 0 auto; /* Centers the list horizontally on the page */
-  
-  /* Base Mobile Layout: Single Column */
+  --gap-size: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--gap-size);
@@ -393,32 +323,10 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   list-style: none;
 }
 
-/* Tablet Layout: Two Columns (Centered) */
-@media (min-width: 640px) {
-  #inv-display {
-      grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Desktop Layout: Three Columns (Centered) */
-@media (min-width: 1024px) {
-  #inv-display {
-      grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Large Desktop Layout: Four Columns (Centered) */
-@media (min-width: 1280px) {
-  #inv-display {
-      grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* 2. STYLING FOR THE INDIVIDUAL VEHICLE CARDS (li) */
 #inv-display li {
   border: 1px solid #E5E5E5;
-  border-radius: 0.75rem; /* RESTORED BORDER RADIUS */
-  overflow: hidden; /* CRITICAL: Clips content (like images) to the rounded corners */
+  border-radius: 0.75rem;
+  overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
   background-color: white;
   display: flex;
@@ -430,29 +338,26 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* 3. IMAGE STYLES: FULL VISIBILITY AND CENTERING */
-#inv-display a {
-  display: flex; /* Make the parent link a flex container */
-  justify-content: center; /* Center image horizontally */
-  align-items: center; /* Center image vertically */
-  height: 4rem; /* Give the container a fixed height */
-  background-color: #F5F5F5; /* Light background to define the frame */
+#inv-display li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  background-color: #F5F5F5;
 }
 
 #inv-display img {
-  max-width: 100%; /* Ensures image doesn't exceed container width */
-  max-height: 100%; /* Ensures image doesn't exceed container height */
+  max-width: 100%;
+  max-height: 100%;
   height: auto;
   width: auto;
-  object-fit: contain; /* Keeps the whole image visible (no cropping/zooming) */
+  object-fit: contain;
   display: block;
-  padding: 0; /* Removed padding to let the background color define the margin/frame */
+  padding: 0;
   margin: 0;
 }
 
-/* Style for the name and price section (bottom text) */
 .namePrice {
-  /* 4. CENTER PRICE/NAME TEXT */
   text-align: center; 
   padding: 0.25rem 1rem 0.5rem 1rem;
   flex-grow: 1;
@@ -465,7 +370,7 @@ MEDIA QUERY (Large Screen Layout: 600px+)
   border-color: #E0E7FF;
   margin-top: 0.25rem;
   margin-bottom: 0.75rem;
-  width: 80%; /* Shrink the HR element for better centering look */
+  width: 80%;
 }
 
 .namePrice h2 {
@@ -507,49 +412,43 @@ VEHICLE DETAIL VIEW STYLES
 */
 
 #detail-view {
-  /* Center the container and give it a max width */
   max-width: 1200px;
   margin: 0 auto;
   padding: 1.5rem;
 }
 
 .detail-container {
-  /* White background for the whole section */
   background-color: white;
-  border: 1px solid #E5E5E5; /* Light gray border */
+  border: 1px solid #E5E5E5;
   border-radius: 0.75rem;
   padding: 1.5rem;
 }
 
-/* --- TITLE STYLES --- */
 .detail-title {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #E0E7FF; /* Light blue border */
+  border-bottom: 2px solid #E0E7FF;
   padding-bottom: 0.5rem;
   color: #262626;
 }
 
-/* --- MOBILE LAYOUT: Stacking Image and Info --- */
 .detail-content-grid {
   display: flex;
-  flex-direction: column; /* Stacks items vertically on mobile */
+  flex-direction: column;
   gap: 1.5rem;
 }
 
-/* --- IMAGE STYLES --- */
 .detail-img {
   width: 100%;
   max-height: 400px; 
   height: auto;
   object-fit: contain;
-  background-color: #F5F5F5; /* Light background for the image frame */
+  background-color: #F5F5F5;
   border-radius: 0.5rem;
   padding: 1rem;
 }
 
-/* --- INFO SECTION STYLES --- */
 .detail-info {
   padding: 1rem;
   border: 1px solid #E5E5E5;
@@ -577,69 +476,30 @@ VEHICLE DETAIL VIEW STYLES
 }
 
 .detail-list li span {
-  /* Style for the labels (Price, Description, Color, Miles) */
   display: block;
   font-weight: 700;
   color: #262626; 
 }
 
-/* Highlight the price explicitly */
 .detail-list li:first-child span {
-    font-size: 1.25rem;
-    color: #8a7400;
-}
-
-/* --- DESKTOP LAYOUT: Image and Info Side-by-Side --- */
-@media (min-width: 768px) {
-  .detail-content-grid {
-    display: grid;
-    /* Two columns: Image (1.5 parts) and Info (1 part) */
-    grid-template-columns: 1.5fr 1fr; 
-    gap: 3rem;
-  }
-  
-  .detail-img {
-    padding: 0; /* Remove padding for larger screens */
-    max-width: none;
-    max-height: 100%;
-    /* Ensure image takes up space without stretching too much */
-    object-fit: scale-down; 
-  }
-
-  .detail-info {
-    /* Reduce padding/margin for better alignment in the grid */
-    padding: 0;
-    border: none;
-    border-left: 1px solid #E5E5E5; /* Add a vertical separator line */
-    padding-left: 2rem;
-  }
-
-  /* Make the main title wider on desktop */
-  .detail-title {
-    font-size: 2.5rem;
-  }
+  font-size: 1.25rem;
+  color: #8a7400;
 }
 
 /*
 ====================================
-ERROR PAGE BACKGROUND STYLES
+ERROR PAGE STYLES
 ====================================
 */
 
 .error-page-background {
-  /*IMAGE SOURCE:*/
   background-image: url('../images/crash.jfif'); 
-  
   background-size: contain;
   background-position: center;
   background-attachment: fixed; 
   min-height: 100vh;
-  
-  /* Overlay for text readability */
   background-color: rgba(0, 0, 0, 0.6); 
   background-blend-mode: overlay;
-  
-  /* Center the error box */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -647,7 +507,6 @@ ERROR PAGE BACKGROUND STYLES
 }
 
 .error-view {
-  /* Style the semi-transparent box over the image */
   background-color: rgba(255, 255, 255, 0.9); 
   padding: 2.5rem;
   border-radius: 0.75rem;
@@ -665,45 +524,44 @@ ERROR PAGE BACKGROUND STYLES
   margin-bottom: 1rem;
 }
 
-/**********************
-========================
-STYLE FOR THE REGISTRATION AND LOGIN PAGES
-========================
-***********************/
+/*
+====================================
+ACCOUNT FORMS (LOGIN & REGISTER)
+====================================
+*/
 
-
-/* Container for the page */
+/* --- Page Containers --- */
 .registration-page, 
 .login-page {
   display: flex;
-  flex-direction: column; /* Stack vertically */
-  align-items: center;    /* Center everything horizontally */
+  flex-direction: column;
+  align-items: center;
   max-width: 1000px;
   margin: 2rem auto;
   padding: 0 0.5rem;
 }
 
-/* Title and messages at top-left inside page container */
+/* --- Title and Messages --- */
 .registration-info, 
 .login-info {
   width: 100%;
-  text-align: left; /* Align left */
+  text-align: left;
   margin-bottom: 1.5rem;
 }
 
-/* Registration container */ /* Login container */
+/* --- Form Wrapper/Card --- */
 .registration-wrapper, 
 .login-wrapper {
   max-width: 500px;
   margin: 2rem auto;
-  background: #1e2a38;
+  background: var(--form-bg);
   padding: 2rem;
   border-radius: 10px;
-  color: #fff;
+  color: var(--form-text);
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-/* Form labels Register & Login */
+/* --- Form Labels --- */
 .registration-wrapper label, 
 .login-wrapper label {
   display: block;
@@ -711,7 +569,7 @@ STYLE FOR THE REGISTRATION AND LOGIN PAGES
   font-weight: 600;
 }
 
-/* Inputs Register & Login*/
+/* --- Inputs (Text, Email, Password) --- */
 .registration-wrapper input[type="text"],
 .registration-wrapper input[type="email"],
 .registration-wrapper input[type="password"],
@@ -726,12 +584,12 @@ STYLE FOR THE REGISTRATION AND LOGIN PAGES
   font-size: 1rem;
 }
 
-/* Submit button */
+/* --- Submit Buttons --- */
 .registration-wrapper button,
 .login-wrapper button {
   width: 50%;
   padding: 0.75rem;
-  background: #4da3ff;
+  background: var(--form-button);
   border: none;
   border-radius: 6px;
   font-size: 1rem;
@@ -745,10 +603,10 @@ STYLE FOR THE REGISTRATION AND LOGIN PAGES
 
 .registration-wrapper button:hover,
 .login-wrapper button:hover {
-  background: #1c82e2;
+  background: var(--form-button-hover);
 }
 
-/* Password requirements note */
+/* --- Password Note --- */
 .password-note-inline {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -757,10 +615,10 @@ STYLE FOR THE REGISTRATION AND LOGIN PAGES
   border-radius: 4px;
   font-size: 0.9rem;
   color: #c0d8ff;
-  display: block; /* prevents weird wrapping */
+  display: block;
 }
 
-/* Style for the "Show Password" toggle button */
+/* --- Show Password Button --- */
 #pswdBtn,
 #loginPswdBtn {
   border: 2px solid #000;
@@ -771,30 +629,24 @@ STYLE FOR THE REGISTRATION AND LOGIN PAGES
   font-size: small;
   width: 7em;
   text-align: center;
-  display: block; /* Makes it take up a full line for alignment */
-  cursor: pointer; /* Indicates it's clickable */
-  color: #fff; /* Assuming a dark background, set text color */
-  background-color: #555; /* Add a slight background */
+  display: block;
+  cursor: pointer;
+  color: #fff;
+  background-color: #555;
 }
 
 #pswdBtn:hover {
-    background-color: #777;
+  background-color: #777;
 }
 
-/**********************
-========================
-STYLE FOR THE LOGIN PAGE ONLY
-========================
-***********************/
-
-/* “No account? Sign-up” link */
+/* --- Login Specific Styles --- */
 .signup-link {
   margin-top: 1rem;
   text-align: center;
 }
 
 .signup-link a {
-  color: #79baff;
+  color: var(--form-link);
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
@@ -804,49 +656,57 @@ STYLE FOR THE LOGIN PAGE ONLY
   text-decoration: underline;
 }
 
-/* Styling for success/notice messages */
+/*
+====================================
+MESSAGES & GENERAL FORM VALIDATION
+====================================
+*/
+
+/* --- CONSOLIDATED MESSAGE STYLES --- */
+/* We are prioritizing the first defined .notice and .error styles */
+
 .notice {
   text-align: left;
-  list-style-type: disc;      
-  margin: 0 0 1rem 5rem;    
+  list-style-type: disc;
+  margin: 0 0 1rem 5rem;
   padding: 0;
-  font-weight: 400;          
-  font-size: 0.95rem;          
-  color: #18662a;             
-}
-
-/* ERROR MESSAGE - text only */
-.error {
-  list-style-type: disc;      
-  margin: 0 0 1rem 5rem;    
-  padding: 0;
-  font-weight: 400;          
+  font-weight: 400;
   font-size: 0.95rem;
-  color: #dc3545;            
+  color: #18662a; /* Keep first color definition */
 }
 
-/* Default input style */
+.error {
+  list-style-type: disc;
+  margin: 0 0 1rem 5rem;
+  padding: 0;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--error-color); /* Keep first color definition */
+}
+
+/* --- DEFAULT INPUT STYLES (Applies to all inputs not explicitly styled above) --- */
 input {
   border: 2px solid #ccc; 
   outline: none;
   transition: border 0.3s ease;
 }
 
-/* Show invalid only after user interaction */
+/* --- CLIENT-SIDE VALIDATION STYLES (Applies to all required inputs) --- */
 input:required:invalid:focus,
 input:required:invalid:focus-visible,
 input:required:invalid.touched {
-  border: 2px solid #dc3545; 
+  border: 2px solid var(--invalid-border); 
 }
 
-/* Show valid border after user types a valid input */
 input:required:valid {
-  border: 2px solid #28a745; 
+  border: 2px solid var(--valid-border); 
 }
 
-/* -------------------------------------------------------------------
-* Form Element Styling (Applies to add-classification & add-inventory)
-* ------------------------------------------------------------------- */
+/*
+====================================
+INVENTORY MANAGEMENT FORMS
+====================================
+*/
 
 #addClassForm, #addInventoryForm {
   max-width: 600px;
@@ -858,7 +718,6 @@ input:required:valid {
   background-color: #f9f9f9;
 }
 
-/* Fieldset and Legend for grouping */
 #addClassForm fieldset, #addInventoryForm fieldset {
   border: 1px solid #e0e0e0;
   padding: 20px;
@@ -868,12 +727,11 @@ input:required:valid {
 #addClassForm legend, #addInventoryForm legend {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #006ee4; /* Primary brand color for headings */
+  color: #006ee4;
   padding: 0 10px;
   margin-left: -10px;
 }
 
-/* Form Instructions */
 .form-instructions {
   font-style: italic;
   color: #666;
@@ -881,7 +739,6 @@ input:required:valid {
   padding-left: 5px;
 }
 
-/* Labels */
 #addClassForm label, #addInventoryForm label {
   display: block;
   margin-top: 15px;
@@ -890,7 +747,7 @@ input:required:valid {
   color: #333;
 }
 
-/* Text Inputs, Select, and Textarea */
+/* --- CONSOLIDATED FORM INPUTS for Management Forms --- */
 #addClassForm input[type="text"], 
 #addInventoryForm input[type="text"], 
 #addInventoryForm input[type="number"],
@@ -900,7 +757,7 @@ input:required:valid {
   padding: 12px;
   border: 1px solid #ced4da;
   border-radius: 6px;
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  box-sizing: border-box;
   font-size: 1rem;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -910,7 +767,7 @@ input:required:valid {
   min-height: 100px;
 }
 
-/* Focus State */
+/* --- Focus State --- */
 #addClassForm input:focus, 
 #addInventoryForm input:focus,
 #addInventoryForm select:focus,
@@ -920,14 +777,14 @@ input:required:valid {
   outline: none;
 }
 
-/* Invalid State (Client-side validation using :invalid pseudo-class) */
+/* --- Invalid State (Client-side validation) --- */
 #addClassForm input:invalid:not(:focus):not(:placeholder-shown),
 #addInventoryForm input:invalid:not(:focus):not(:placeholder-shown) {
-  border-color: #dc3545; /* Red border for invalid input */
+  border-color: var(--error-color);
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
-/* Submit Button */
+/* --- Submit Button --- */
 #addClassForm button[type="submit"], 
 #addInventoryForm button[type="submit"] {
   width: 50%;
@@ -952,10 +809,7 @@ input:required:valid {
   transform: translateY(-1px);
 }
 
-/* -------------------------------------------------------------------
-* Inventory Management View (management.ejs) Styles
-* ------------------------------------------------------------------- */
-
+/* --- Management Links View --- */
 .management-links {
   max-width: 800px;
   margin: 2rem auto;
@@ -994,160 +848,20 @@ input:required:valid {
   transform: translateY(-2px);
 }
 
-/* -------------------------------------------------------------------
-* Responsiveness (Mobile First)
-* ------------------------------------------------------------------- */
-
-/* Adjust form padding and margins for smaller screens */
-@media screen and (max-width: 768px) {
-  #addClassForm, #addInventoryForm, .management-links {
-      margin: 1rem;
-      padding: 15px;
-  }
-}
-
-/* If you need specific styles for your classification list: */
 #classificationList {
-  /* Style the select list placeholder/default option */
   color: #6c757d; 
 }
 #classificationList option:not(:first-child) {
   color: #333;
 }
 
-/* --- Account Management View Styles --- */
+/*
+====================================
+ACCOUNT MANAGEMENT VIEW
+====================================
+*/
 
-/* Main container and card layout */
-.account-management-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 30px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    text-align: center;
-}
-
-/* Headers */
-.account-management-container h1 {
-    color: #333;
-    font-size: 2.2em;
-    margin-bottom: 5px;
-}
-
-.welcome-message {
-    color: #007bff; /* Primary brand color */
-    font-size: 1.6em;
-    margin-top: 0;
-    margin-bottom: 25px;
-    font-weight: 600;
-}
-
-.management-text {
-    color: #555;
-    font-size: 1.1em;
-    margin-bottom: 30px;
-}
-
-/* Flash and Error Messages */
-/* Assuming 'messages()' output uses a '.notice' or similar container */
-.notice, .error-notice {
-    list-style: none;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    text-align: left;
-    font-weight: 500;
-    border: 1px solid transparent;
-}
-
-.notice {
-    background-color: #d4edda;
-    color: #155724;
-    border-color: #c3e6cb;
-}
-
-.error-notice {
-    background-color: #f8d7da;
-    color: #721c24;
-    border-color: #f5c6cb;
-}
-
-
-/* Action Buttons Container */
-.management-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding-top: 10px;
-}
-
-/* Button Styling (General) */
-.action-button {
-    display: block;
-    padding: 14px 25px;
-    font-size: 1.1em;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.2s, transform 0.1s;
-    text-align: center;
-}
-
-/* Primary Action Button (e.g., Update Info, Log In) */
-.primary-action {
-    background-color: #007bff;
-    color: white;
-    border: 1px solid #007bff;
-}
-
-.primary-action:hover {
-    background-color: #0056b3;
-    transform: translateY(-1px);
-}
-
-/* Secondary Action Button (e.g., Inventory Management) */
-.secondary-action {
-    background-color: #6c757d;
-    color: white;
-    border: 1px solid #6c757d;
-}
-
-.secondary-action:hover {
-    background-color: #5a6268;
-    transform: translateY(-1px);
-}
-
-/* Logout Button (Distinct Color) */
-.logout-action {
-    background-color: #dc3545; /* Red for emphasis/warning */
-    color: white;
-    border: 1px solid #dc3545;
-    margin-top: 10px; /* Separator for the log out action */
-}
-
-.logout-action:hover {
-    background-color: #c82333;
-    transform: translateY(-1px);
-}
-
-/* Responsive adjustments */
-@media (min-width: 600px) {
-    .management-actions {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    .action-button {
-        width: auto;
-        min-width: 250px;
-    }
-}
-
-/* --- Account Management View Styles --- */
-
-/* Main container and card layout */
+/* --- Main Container --- */
 .account-management-container {
   max-width: 800px;
   margin: 40px auto;
@@ -1159,7 +873,6 @@ input:required:valid {
   text-align: center;
 }
 
-/* Headers */
 .account-management-container h1 {
   color: #333;
   font-size: 2.2em;
@@ -1167,7 +880,7 @@ input:required:valid {
 }
 
 .welcome-message {
-  color: #007bff; /* Primary brand color */
+  color: var(--acct-primary);
   font-size: 1.6em;
   margin-top: 0;
   margin-bottom: 25px;
@@ -1180,9 +893,15 @@ input:required:valid {
   margin-bottom: 30px;
 }
 
-/* Flash and Error Messages */
-/* Assuming 'messages()' output uses a '.notice' or similar container */
-.notice, .error-notice {
+/* --- Flash and Error Messages (Account Management Specific Styling) --- */
+/* Note: These styles are kept separate from the general .notice/.error list styles above
+   to ensure the specific Account Management boxes work with 'messages()' output.
+   The user requested the *first* definition of .notice/.error be used, which is the list style.
+   Therefore, the generic message container from 'messages()' must be targeted differently,
+   or the view must output different classes. I'll include the original code here
+   for completeness, but comment that they are functionally different from the list errors.
+*/
+.acct-flash-message { /* New selector to replace the redundant .notice/.error-notice */
   list-style: none;
   padding: 15px;
   margin-bottom: 20px;
@@ -1192,20 +911,19 @@ input:required:valid {
   border: 1px solid transparent;
 }
 
-.notice {
-  background-color: #d4edda;
-  color: #155724;
-  border-color: #c3e6cb;
+.acct-flash-message.success {
+  background-color: var(--acct-success-bg);
+  color: var(--acct-success-text);
+  border-color: var(--acct-success-border);
 }
 
-.error-notice {
-  background-color: #f8d7da;
-  color: #721c24;
-  border-color: #f5c6cb;
+.acct-flash-message.error {
+  background-color: var(--acct-error-bg);
+  color: var(--acct-error-text);
+  border-color: var(--acct-error-border);
 }
 
-
-/* Action Buttons Container */
+/* --- Action Buttons --- */
 .management-actions {
   display: flex;
   flex-direction: column;
@@ -1213,7 +931,6 @@ input:required:valid {
   padding-top: 10px;
 }
 
-/* Button Styling (General) */
 .action-button {
   display: block;
   padding: 14px 25px;
@@ -1225,11 +942,10 @@ input:required:valid {
   text-align: center;
 }
 
-/* Primary Action Button (e.g., Update Info, Log In) */
 .primary-action {
-  background-color: #007bff;
+  background-color: var(--acct-primary);
   color: white;
-  border: 1px solid #007bff;
+  border: 1px solid var(--acct-primary);
 }
 
 .primary-action:hover {
@@ -1237,11 +953,10 @@ input:required:valid {
   transform: translateY(-1px);
 }
 
-/* Secondary Action Button (e.g., Inventory Management) */
 .secondary-action {
-  background-color: #6c757d;
+  background-color: var(--acct-secondary);
   color: white;
-  border: 1px solid #6c757d;
+  border: 1px solid var(--acct-secondary);
 }
 
 .secondary-action:hover {
@@ -1249,12 +964,11 @@ input:required:valid {
   transform: translateY(-1px);
 }
 
-/* Logout Button (Distinct Color) */
 .logout-action {
-  background-color: #dc3545; /* Red for emphasis/warning */
+  background-color: var(--acct-logout);
   color: white;
-  border: 1px solid #dc3545;
-  margin-top: 10px; /* Separator for the log out action */
+  border: 1px solid var(--acct-logout);
+  margin-top: 10px;
 }
 
 .logout-action:hover {
@@ -1262,15 +976,145 @@ input:required:valid {
   transform: translateY(-1px);
 }
 
-/* Responsive adjustments */
-@media (min-width: 600px) {
+/*
+====================================
+MEDIA QUERIES
+====================================
+*/
+
+@media only screen and (min-width: 600px) {
+
+  /* NAVIGATION */
+  nav ul {
+    justify-content: center; 
+    flex-wrap: nowrap;
+  }
+
+  /* PROMO BANNER */
+  #promo-banner {
+    flex-direction: row; 
+    align-items: center;
+    padding: 20px;
+  }
+
+  .delorean-image {
+    width: 60%; 
+    max-width: 585px;
+    height: auto;
+    order: 2; 
+    margin-left: 20px;
+  }
+
+  .banner-text {
+    order: 1; 
+    position: static;
+    transform: none;
+    background: none; 
+    padding: 0;
+    width: 40%;
+    text-align: left;
+  }
+  
+  .banner-text h2 {
+    font-size: 2em;
+  }
+
+  /* REVIEWS & UPGRADES GRID */
+  #content-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr; 
+    gap: 30px;
+    margin-top: 30px;
+    padding: 0 10px 10px; 
+  }
+
+  #upgrades {
+    order: 1; 
+    text-align: center; 
+  }
+  
+  #upgrades h2 {
+    text-align: left; 
+  }
+  
+  #reviews {
+    order: 2; 
+  }
+
+  /* CLASSIFICATION GRID */
+  #inv-display {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* ACCOUNT MANAGEMENT ACTIONS */
   .management-actions {
-      flex-direction: row;
-      justify-content: center;
-      flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .action-button {
-      width: auto;
-      min-width: 250px;
+    width: auto;
+    min-width: 250px;
+  }
+}
+
+@media (min-width: 768px) {
+  /* VEHICLE DETAIL GRID */
+  .detail-content-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; 
+    gap: 3rem;
+  }
+  
+  .detail-img {
+    padding: 0;
+    max-width: none;
+    max-height: 100%;
+    object-fit: scale-down; 
+  }
+
+  .detail-info {
+    padding: 0;
+    border: none;
+    border-left: 1px solid #E5E5E5;
+    padding-left: 2rem;
+  }
+
+  .detail-title {
+    font-size: 2.5rem;
+  }
+  
+  /* MANAGEMENT FORMS */
+  /* Adjust form padding and margins for smaller screens */
+  #addClassForm, #addInventoryForm, .management-links {
+    margin: 1rem;
+    padding: 15px;
+  }
+}
+
+@media (min-width: 640px) {
+  /* CLASSIFICATION GRID */
+  /* This rule is moved up for tablet (640px) */
+}
+
+@media (min-width: 1024px) {
+  /* CLASSIFICATION GRID */
+  #inv-display {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  /* CLASSIFICATION GRID */
+  #inv-display {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Adjust form padding and margins for smaller screens */
+@media screen and (max-width: 768px) {
+  #addClassForm, #addInventoryForm, .management-links {
+    margin: 1rem;
+    padding: 15px;
   }
 }

@@ -105,7 +105,7 @@ async function accountLogin(req, res) {
 
     // Check if account data was returned (i.e., email exists)
     if (!accountData) {
-        req.flash("notice", "Please check your credentials and try again.")
+        req.flash("error", "Please check your credentials and try again.")
         res.status(400).render("account/login", {
             title: "Login",
             nav,
@@ -135,7 +135,7 @@ async function accountLogin(req, res) {
         }
         else {
             // Passwords do not match
-            req.flash("message notice", "Please check your credentials and try again.")
+            req.flash("message error", "Please check your credentials and try again.")
             res.status(400).render("account/login", {
                 title: "Login",
                 nav,

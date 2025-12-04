@@ -141,7 +141,7 @@ Util.checkJWTToken = (req, res, next) => {
             process.env.ACCESS_TOKEN_SECRET,
             function (err, accountData) {
                 if (err) {
-                    // Token invalid/expired
+                    // Token invalid/expired: Clear cookie and redirect to login
                     req.flash("notice", "Please log in")
                     res.clearCookie("jwt")
                     return res.redirect("/account/login")
@@ -152,8 +152,40 @@ Util.checkJWTToken = (req, res, next) => {
                 next()
             })
     } else {
-        // No cookie, proceed
+        // No cookie found, proceed to next middleware/route handler
         next()
+    }
+}
+
+/* ****************************************
+ * Check Login
+ * Middleware to check if the user is logged in
+ * ************************************ */
+Util.checkLogin = (req, res, next) => {
+    // Check if the 'loggedin' flag was set by checkJWTToken middleware
+    if (res.locals.loggedin) {
+      next() // User is logged in, continue to the next step
+    } else {
+      // User is not logged in: Flash a notice and redirect to the login view
+      req.flash("notice", "Please log in.")
+      return res.redirect("/account/login")
+    }
+   }
+
+/* ****************************************
+ * Check Authorization (Role-Based Access)
+ * Middleware to check if the user is an 'Employee' or 'Admin'
+ * ************************************ */
+Util.checkAuthorization = (req, res, next) => {
+    // Check if accountData exists and the account_type is either 'Employee' or 'Admin'
+    if (res.locals.loggedin && 
+        (res.locals.accountData.account_type === 'Employee' || 
+         res.locals.accountData.account_type === 'Admin')) {
+        next() // Authorized, continue to the next step
+    } else {
+        // Not authorized: Flash a notice and redirect them to the home page
+        req.flash("notice", "You are not authorized to access that page.")
+        return res.redirect("/")
     }
 }
 

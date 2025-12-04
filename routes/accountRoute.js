@@ -21,15 +21,15 @@ router.post(
     regValidate.checkRegData,
     utilities.handleErrors(accountController.registerAccount)
 )
-  
+ 
 // *****************************************************************
 // JWT and Cookie REQUIREMENT: Process the login request
 // This route now applies validation rules and calls the new controller function.
 // *****************************************************************
 router.post(
   "/login",
-  regValidate.loginRules(),             // Validation rules for login data
-  regValidate.checkLoginData,           // Check for and handle validation errors
+  regValidate.loginRules(), // Validation rules for login data
+  regValidate.checkLoginData, // Check for and handle validation errors
   utilities.handleErrors(accountController.accountLogin) // New function to authenticate and set JWT
 )
 
@@ -39,7 +39,9 @@ router.post(
 // *****************************************************************
 router.get(
     "/",
+    // Middleware to check if the user is logged in before allowing access to the view
+    utilities.checkLogin, 
     utilities.handleErrors(accountController.buildAccountManagement)
 )
-  
+ 
 module.exports = router
