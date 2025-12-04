@@ -1,17 +1,33 @@
 <% if (title) { %>
-    <h1><%- title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+  <h1><%- title %></h1>
+<% } else { 
+  res.redirect('/') 
+} %>
 
 <%- messages() %>
 
-<div class="management-links">
+<div class="management-wrapper">
+  <div class="management-links">
     <h2>Inventory Management</h2>
     <p>Use the links below to add, edit, or delete inventory items.</p>
-    
-    <a href="/inv/add-classification" title="Add a New Classification">Add New Classification</a>
-    
-    <a href="/inv/add-inventory" title="Add a New Vehicle">Add New Inventory</a>
 
-    </div>
+    <a href="/inv/add-classification" title="Add a New Classification">Add New Classification</a>
+    <a href="/inv/add-inventory" title="Add a New Vehicle">Add New Inventory</a>
+  </div>
+</div>
+
+<div id="inventory-items">
+  <!-- Inventory Management Section -->
+  <h2 class="mt-8">Inventory Items</h2>
+  <p>Select a classification to see the inventory items.</p>
+</div>
+
+<!-- Classification Select List (Passed from Controller) -->
+<%- classificationSelect %>
+
+<!-- Placeholder for the Inventory Table -->
+<!-- The JavaScript file will populate this div with the table content -->
+<div id="inventoryDisplay"></div>
+
+<!-- Client-side JavaScript for handling the classification selection and fetching data -->
+<script src="../../js/inventory.js"></script>

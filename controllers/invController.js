@@ -63,13 +63,19 @@ invCont.throwIntentionalError = async function (req, res, next) {
 
 /* ***************************
  * Build the Inventory Management View (Task 1)
+ * * UPDATED: Added classification list to the view data to enable item selection.
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav()
+  
+  // Call the utility function to build the classification select list
+  const classificationSelect = await utilities.buildClassificationList()
+  
   res.render("./inventory/management", {
     title: "Inventory Management",
     nav,
     messages: res.locals.messages, // To display flash messages
+    classificationSelect, // Pass the classification list HTML to the view
   })
 }
 
@@ -207,5 +213,30 @@ invCont.addInventory = async function (req, res) {
     })
   }
 }
+
+
+/* ***************************
+ * Return Inventory by Classification As JSON
+ * * NEW FUNCTION: Handles AJAX request from inventory.js 
+ * and returns vehicle data for a selected classification.
+ * ************************** */
+invCont.getInventoryJSON = async (req, res, next) => {
+  // Collects the classification_id from the URL parameters
+  // Uses parseInt() for security and type casting
+  const classification_id = parseInt(req.params.classification_id)
+  
+  // Calls the model function to retrieve data. Note: The model function must be named 'getInventoryByClassificationId'.
+  const invData = await invModel.getInventoryByClassificationId(classification_id) 
+  
+  // Check if any data was returned and if the first item has an inv_id
+  if (invData[0] && invData[0].inv_id) {
+    // If successful, return the data array as a JSON object
+    return res.json(invData)
+  } else {
+    // If no data, throw an error for Express to handle
+    next(new Error("No data returned"))
+  }
+}
+
 
 module.exports = invCont

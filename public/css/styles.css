@@ -707,6 +707,21 @@ input:required:valid {
 INVENTORY MANAGEMENT FORMS
 ====================================
 */
+.center-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+#addInventoryForm select {
+  width: 100%;
+  max-width: 75%;
+  box-sizing: border-box;
+  display: block;
+}
+
+
 
 #addClassForm, #addInventoryForm {
   max-width: 600px;
@@ -751,7 +766,6 @@ INVENTORY MANAGEMENT FORMS
 #addClassForm input[type="text"], 
 #addInventoryForm input[type="text"], 
 #addInventoryForm input[type="number"],
-#addInventoryForm select,
 #addInventoryForm textarea {
   width: 100%;
   padding: 12px;
@@ -761,6 +775,7 @@ INVENTORY MANAGEMENT FORMS
   font-size: 1rem;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
+
 
 #addInventoryForm textarea {
   resize: vertical;
@@ -810,6 +825,13 @@ INVENTORY MANAGEMENT FORMS
 }
 
 /* --- Management Links View --- */
+.management-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .management-links {
   max-width: 800px;
   margin: 2rem auto;
@@ -1117,4 +1139,91 @@ MEDIA QUERIES
     margin: 1rem;
     padding: 15px;
   }
+}
+
+/* -------------------------------------------------------------------
+ * Inventory Management View (Styling for the /inv page)
+ * ------------------------------------------------------------------- */
+/* -------------------------------------------------------------------
+* Classification Dropdown Styling
+* ------------------------------------------------------------------- */
+#inventory-items {
+  margin-left: 5rem;
+}
+#classificationList {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  display: block; /* Make it take up full width or use max-width */
+  max-width: 400px;
+  background-color: white;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-left:5rem;
+}
+
+/* -------------------------------------------------------------------
+* Dynamic Inventory Table Styling (#inventoryDisplay)
+* ------------------------------------------------------------------- */
+
+#inventoryDisplay table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden; /* Ensures border radius works on table corners */
+}
+
+#inventoryDisplay th, 
+#inventoryDisplay td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#inventoryDisplay thead {
+  background-color: #333; /* Dark header */
+  color: white;
+}
+
+#inventoryDisplay tbody tr:nth-child(even) {
+  background-color: #f8f8f8; /* Zebra stripes for readability */
+}
+
+#inventoryDisplay tbody tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+/* Styling for the Modify and Delete links within the table */
+#inventoryDisplay td a {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  margin-right: 5px;
+}
+
+#inventoryDisplay td a[href*="edit"] {
+  color: #007bff;
+  border: 1px solid #007bff;
+}
+
+#inventoryDisplay td a[href*="edit"]:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+#inventoryDisplay td a[href*="delete"] {
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+#inventoryDisplay td a[href*="delete"]:hover {
+  background-color: #dc3545;
+  color: white;
 }
