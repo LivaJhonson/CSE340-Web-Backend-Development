@@ -23,8 +23,6 @@
             <% if (accountData.account_type === 'Employee' || accountData.account_type === 'Admin') { %>
                 <a href="/inv" class="action-button secondary-action">Inventory Management</a>
             <% } %>
-            
-            <a href="/account/logout" class="action-button logout-action">Log Out</a>
         </div>
     <% } else { %>
         <p class="management-text">You must be logged in to view this page.</p>
