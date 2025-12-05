@@ -712,7 +712,7 @@ INVENTORY MANAGEMENT FORMS
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 20px auto;
+  align-items: center;
 }
 
 .center-wrapper p {
