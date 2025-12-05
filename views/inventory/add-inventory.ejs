@@ -1,84 +1,120 @@
 <% if (title) { %>
   <h1><%- title %></h1>
-  <% } else {
-  res.redirect('/')
-  } %>
-  
-  <%- messages() %>
-  
-  <% if (errors) { %>
-  <ul class="error">
-  <% errors.array().forEach(error => { %>
-  <li><%= error.msg %></li>
-  <% }) %>
-  </ul>
-  <% } %>
-  
-  <div class="center-wrapper">
-  <!--
-  Action changed to /inv/update and method remains POST.
-  This form is now configured to submit the edited data for processing in Step 2.
-  -->
-  <form id="editInventoryForm" action="/inv/update" method="post">
-  <fieldset>
-  <legend>Modify Vehicle Information</legend>
-  
-      <label for="classificationSelect">Classification:</label>
-      <!-- 
-        classificationSelect is now passed with the item's classification_id 
-        pre-selected, thanks to the controller function.
-      -->
+<% } else { %>
+  <%
+    res.redirect('/')
+  %>
+<% } %>
+
+<%- messages() %>
+
+<!-- The center-wrapper class handles centering of content -->
+<div class="center-wrapper">
+
+  <!-- FIX: The form action MUST point to the ADD route -->
+  <form id="addInventoryForm" action="/inv/add-inventory" method="post">
+    <fieldset>
+
+      <!-- CORRECT HEADING FOR ADDING INVENTORY -->
+      <legend>Add New Vehicle Information</legend>
+      <p class="form-instructions">All fields are required unless marked as optional.</p>
+
+      <label for="classificationList">Classification:</label>
+      <!-- classificationSelect variable should be built in the controller -->
       <%- classificationSelect %>
-  
+
       <label for="invMake">Make:</label>
-      <!-- All input fields are pre-populated with the data passed from the controller (locals). -->
-      <input type="text" id="invMake" name="inv_make" required minlength="3"
-        <% if(locals.inv_make) { %> value="<%= locals.inv_make %>" <% } %>>
-  
+      <input 
+        type="text" 
+        id="invMake" 
+        name="inv_make" 
+        required 
+        placeholder="e.g., Ford"
+        <% if (locals.inv_make) { %> value="<%= locals.inv_make %>" <% } %>
+      >
+
       <label for="invModel">Model:</label>
-      <input type="text" id="invModel" name="inv_model" required minlength="3"
-        <% if(locals.inv_model) { %> value="<%= locals.inv_model %>" <% } %>>
-  
+      <input 
+        type="text" 
+        id="invModel" 
+        name="inv_model" 
+        required 
+        placeholder="e.g., Bronco"
+        <% if (locals.inv_model) { %> value="<%= locals.inv_model %>" <% } %>
+      >
+
       <label for="invYear">Year:</label>
-      <input type="number" id="invYear" name="inv_year" required min="1886" max="<%= new Date().getFullYear() + 1 %>"
-        <% if(locals.inv_year) { %> value="<%= locals.inv_year %>" <% } %>>
-  
+      <input 
+        type="number" 
+        id="invYear" 
+        name="inv_year" 
+        required 
+        placeholder="e.g., 2024" 
+        pattern="[0-9]{4}"
+        <% if (locals.inv_year) { %> value="<%= locals.inv_year %>" <% } %>
+      >
+
       <label for="invDescription">Description:</label>
-      <!-- Textarea content is placed between the tags, not in a value attribute. -->
-      <textarea id="invDescription" name="inv_description" required minlength="10"><% if(locals.inv_description) { %><%= locals.inv_description %><% } %></textarea>
-  
-      <label for="invImage">Image Path (e.g., /images/vehicles/filename.jpg):</label>
-      <input type="text" id="invImage" name="inv_image" required
-        <% if(locals.inv_image) { %> value="<%= locals.inv_image %>" <% } %>>
-  
-      <label for="invThumbnail">Thumbnail Path (e.g., /images/vehicles/filename-tn.jpg):</label>
-      <input type="text" id="invThumbnail" name="inv_thumbnail" required
-        <% if(locals.inv_thumbnail) { %> value="<%= locals.inv_thumbnail %>" <% } %>>
-  
-      <label for="invPrice">Price:</label>
-      <!-- Ensure price is pre-populated correctly. -->
-      <input type="number" id="invPrice" name="inv_price" required min="0" step=".01"
-        <% if(locals.inv_price) { %> value="<%= locals.inv_price %>" <% } %>>
-  
+      <textarea 
+        id="invDescription" 
+        name="inv_description" 
+        required 
+        placeholder="Describe the vehicle in detail."
+      ><% if (locals.inv_description) { %><%= locals.inv_description %><% } %></textarea>
+
+      <label for="invImage">Image Path (e.g., /images/vehicles/new-element.jpg):</label>
+      <input 
+        type="text" 
+        id="invImage" 
+        name="inv_image" 
+        required 
+        placeholder="/images/vehicles/your-image.jpg"
+        <% if (locals.inv_image) { %> value="<%= locals.inv_image %>" <% } %>
+      >
+
+      <label for="invThumbnail">Thumbnail Path (e.g., /images/vehicles/new-element-tn.jpg):</label>
+      <input 
+        type="text" 
+        id="invThumbnail" 
+        name="inv_thumbnail" 
+        required 
+        placeholder="/images/vehicles/your-thumbnail.jpg"
+        <% if (locals.inv_thumbnail) { %> value="<%= locals.inv_thumbnail %>" <% } %>
+      >
+
+      <label for="invPrice">Price ($):</label>
+      <input 
+        type="number" 
+        id="invPrice" 
+        name="inv_price" 
+        required 
+        placeholder="e.g., 35000"
+        <% if (locals.inv_price) { %> value="<%= locals.inv_price %>" <% } %>
+      >
+
       <label for="invMiles">Miles:</label>
-      <input type="number" id="invMiles" name="inv_miles" required min="0"
-        <% if(locals.inv_miles) { %> value="<%= locals.inv_miles %>" <% } %>>
-  
+      <input 
+        type="number" 
+        id="invMiles" 
+        name="inv_miles" 
+        required 
+        placeholder="e.g., 500"
+        <% if (locals.inv_miles) { %> value="<%= locals.inv_miles %>" <% } %>
+      >
+
       <label for="invColor">Color:</label>
-      <input type="text" id="invColor" name="inv_color" required
-        <% if(locals.inv_color) { %> value="<%= locals.inv_color %>" <% } %>>
-  
-      <!-- 
-        Hidden input to retain the inventory ID when the form is posted. 
-        This is crucial for Step 2 to know which vehicle to update in the database. 
-      -->
-      <input type="hidden" name="inv_id"
-      <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
-  
-      <!-- Change submit button value -->
-      <button type="submit">Update Vehicle</button>
+      <input 
+        type="text" 
+        id="invColor" 
+        name="inv_color" 
+        required 
+        placeholder="e.g., Red"
+        <% if (locals.inv_color) { %> value="<%= locals.inv_color %>" <% } %>
+      >
+
+      <!-- CORRECT BUTTON TEXT FOR ADDING INVENTORY -->
+      <button type="submit">Add Vehicle</button>
+
     </fieldset>
   </form>
-  
-  
-  </div>
+</div>

@@ -28,7 +28,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 }
 
 /* ***************************
- * Build inventory by inventory Id View
+ * Build inventory by inventory Id view
  * ************************** */
 invCont.buildByInvId = async function (req, res, next) {
   const inv_id = req.params.invId
@@ -50,7 +50,7 @@ invCont.buildByInvId = async function (req, res, next) {
 }
 
 /* ***************************
- * Intentional 500 Error Test (For Assignment 3, Task 3)
+ * Intentional 500 Error Test (Assignment 3, Task 3)
  * ************************** */
 invCont.throwIntentionalError = async function (req, res, next) {
   throw new Error("This is an intentional 500 server error test for Assignment 3.")
@@ -94,11 +94,13 @@ invCont.addClassification = async function (req, res) {
   if (classResult) {
     req.flash("notice", `The new classification "${classification_name}" was successfully added.`)
     let nav = await utilities.getNav()
+    const classificationSelect = await utilities.buildClassificationList()
 
     res.status(201).render("./inventory/management", {
       title: "Inventory Management",
       nav,
       messages: res.locals.messages,
+      classificationSelect,
     })
   } else {
     req.flash("error", "Sorry, the new classification addition failed.")
@@ -143,39 +145,39 @@ invCont.buildNewInventory = async function (req, res, next) {
  * ************************** */
 invCont.addInventory = async function (req, res) {
   const {
-    inv_make,
-    inv_model,
-    inv_year,
-    inv_description,
-    inv_image,
-    inv_thumbnail,
-    inv_price,
-    inv_miles,
-    inv_color,
-    classification_id
+    inv_make, inv_model, inv_year, inv_description, inv_image,
+    inv_thumbnail, inv_price, inv_miles, inv_color, classification_id
   } = req.body
+
+  // Sanitize number fields
+  const sanitizedInvYear = inv_year === '' ? null : inv_year
+  const sanitizedInvPrice = inv_price === '' ? null : inv_price
+  const sanitizedInvMiles = inv_miles === '' ? null : inv_miles
+  const sanitizedClassificationId = classification_id === '' ? null : classification_id
 
   const invResult = await invModel.addInventory(
     inv_make,
     inv_model,
-    inv_year,
+    sanitizedInvYear,
     inv_description,
     inv_image,
     inv_thumbnail,
-    inv_price,
-    inv_miles,
+    sanitizedInvPrice,
+    sanitizedInvMiles,
     inv_color,
-    classification_id
+    sanitizedClassificationId
   )
 
   if (invResult) {
     req.flash("notice", `The new vehicle, ${inv_make} ${inv_model}, was successfully added.`)
     let nav = await utilities.getNav()
+    const classificationSelect = await utilities.buildClassificationList()
 
     res.status(201).render("./inventory/management", {
       title: "Inventory Management",
       nav,
       messages: res.locals.messages,
+      classificationSelect,
     })
   } else {
     req.flash("error", "Sorry, the vehicle addition failed.")
@@ -241,19 +243,17 @@ invCont.editInventoryView = async function (req, res, next) {
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
   let nav = await utilities.getNav()
+
   const {
-    inv_id,
-    inv_make,
-    inv_model,
-    inv_description,
-    inv_image,
-    inv_thumbnail,
-    inv_price,
-    inv_year,
-    inv_miles,
-    inv_color,
-    classification_id,
+    inv_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail,
+    inv_price, inv_year, inv_miles, inv_color, classification_id,
   } = req.body
+
+  // Sanitize numbers
+  const sanitizedInvYear = inv_year === '' ? null : inv_year
+  const sanitizedInvPrice = inv_price === '' ? null : inv_price
+  const sanitizedInvMiles = inv_miles === '' ? null : inv_miles
+  const sanitizedClassificationId = classification_id === '' ? null : classification_id
 
   const updateResult = await invModel.updateInventory(
     inv_id,
@@ -262,11 +262,11 @@ invCont.updateInventory = async function (req, res, next) {
     inv_description,
     inv_image,
     inv_thumbnail,
-    inv_price,
-    inv_year,
-    inv_miles,
+    sanitizedInvPrice,
+    sanitizedInvYear,
+    sanitizedInvMiles,
     inv_color,
-    classification_id
+    sanitizedClassificationId
   )
 
   if (updateResult) {
@@ -276,11 +276,12 @@ invCont.updateInventory = async function (req, res, next) {
   } else {
     const classificationSelect = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`
+
     req.flash("notice", "Sorry, the update failed.")
     res.status(501).render("inventory/edit-inventory", {
       title: "Edit " + itemName,
       nav,
-      classificationSelect: classificationSelect,
+      classificationSelect,
       errors: null,
       inv_id,
       inv_make,
@@ -298,24 +299,7 @@ invCont.updateInventory = async function (req, res, next) {
 }
 
 /* ***************************
- * Return Inventory as JSON (AJAX)
- * ************************** */
-invCont.getInventoryJSON = async (req, res, next) => {
-  const classification_id = parseInt(req.params.classification_id)
-  const invData = await invModel.getInventoryByClassificationId(classification_id)
-
-  if (invData[0] && invData[0].inv_id) {
-    return res.json(invData)
-  } else {
-    next(new Error("No data returned"))
-  }
-}
-
-// --- NEW CODE ADDED BELOW FOR DELETE FEATURE ---
-
-/* ***************************
  * Build delete confirmation view
- * Step 1 - Deliver the delete confirmation view
  * ************************** */
 invCont.buildDeleteView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id)
@@ -343,7 +327,6 @@ invCont.buildDeleteView = async function (req, res, next) {
 
 /* ***************************
  * Process delete inventory data
- * Step 2 - Carry out the delete of the inventory item
  * ************************** */
 invCont.deleteItem = async function (req, res, next) {
   let nav = await utilities.getNav()
