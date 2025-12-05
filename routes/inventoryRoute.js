@@ -107,4 +107,24 @@ router.post(
   Util.handleErrors(invController.updateInventory) // <-- Controller function
 )
 
+/* **********************************************
+ * Delete Inventory Routes (Protected)
+ * ********************************************** */
+// Route to deliver the delete confirmation view (Step 1)
+router.get(
+  "/delete/:inv_id",
+  Util.checkLogin, 
+  Util.checkAuthorization, 
+  Util.handleErrors(invController.buildDeleteView) // Controller function for confirmation view
+)
+
+// Post Route to carry out the delete process (Step 2)
+router.post(
+  "/delete",
+  Util.checkLogin, 
+  Util.checkAuthorization, 
+  // NOTE: No validation rules needed for delete as only inv_id is processed
+  Util.handleErrors(invController.deleteItem) // Controller function to execute delete
+)
+
 module.exports = router

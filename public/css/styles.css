@@ -710,11 +710,22 @@ INVENTORY MANAGEMENT FORMS
 .center-wrapper {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 20px auto;
 }
 
-/* Updated to include the new edit form */
+.center-wrapper p {
+  max-width: 600px;
+  text-align: center; 
+  margin-bottom: 20px;
+  padding: 0 10px; /* Add slight padding on mobile */
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #dc3545; 
+}
+
+/* Updated to include the new edit forms */
 #addInventoryForm select, 
 #editInventoryForm select {
   width: 100%;
@@ -724,10 +735,11 @@ INVENTORY MANAGEMENT FORMS
 }
 
 
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm, 
 #addInventoryForm,
-#editInventoryForm {
+#editInventoryForm,
+#deleteInventoryForm {
   max-width: 600px;
   margin: 2rem auto;
   padding: 20px;
@@ -737,19 +749,21 @@ INVENTORY MANAGEMENT FORMS
   background-color: #f9f9f9;
 }
 
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm fieldset, 
 #addInventoryForm fieldset,
-#editInventoryForm fieldset {
+#editInventoryForm fieldset,
+#deleteInventoryForm fieldset { 
   border: 1px solid #e0e0e0;
   padding: 20px;
   border-radius: 8px;
 }
 
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm legend, 
 #addInventoryForm legend,
-#editInventoryForm legend {
+#editInventoryForm legend,
+#deleteInventoryForm legend {
   font-size: 1.5rem;
   font-weight: 600;
   color: #006ee4;
@@ -764,10 +778,11 @@ INVENTORY MANAGEMENT FORMS
   padding-left: 5px;
 }
 
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm label, 
 #addInventoryForm label,
-#editInventoryForm label {
+#editInventoryForm label,
+#deleteInventoryForm label {
   display: block;
   margin-top: 15px;
   margin-bottom: 5px;
@@ -776,14 +791,16 @@ INVENTORY MANAGEMENT FORMS
 }
 
 /* --- CONSOLIDATED FORM INPUTS for Management Forms --- */
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm input[type="text"], 
 #addInventoryForm input[type="text"], 
 #addInventoryForm input[type="number"],
 #addInventoryForm textarea,
 #editInventoryForm input[type="text"], 
 #editInventoryForm input[type="number"],
-#editInventoryForm textarea {
+#editInventoryForm textarea,
+#deleteInventoryForm input[type="text"], 
+#deleteInventoryForm input[type="number"] { 
   width: 100%;
   padding: 12px;
   border: 1px solid #ced4da;
@@ -802,33 +819,37 @@ INVENTORY MANAGEMENT FORMS
 }
 
 /* --- Focus State --- */
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm input:focus, 
 #addInventoryForm input:focus,
 #addInventoryForm select:focus,
 #addInventoryForm textarea:focus,
 #editInventoryForm input:focus,
 #editInventoryForm select:focus,
-#editInventoryForm textarea:focus {
+#editInventoryForm textarea:focus,
+#deleteInventoryForm input:focus,
+#deleteInventoryForm select:focus,
+#deleteInventoryForm textarea:focus {
   border-color: #007bff;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   outline: none;
 }
 
 /* --- Invalid State (Client-side validation) --- */
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm input:invalid:not(:focus):not(:placeholder-shown),
 #addInventoryForm input:invalid:not(:focus):not(:placeholder-shown),
-#editInventoryForm input:invalid:not(:focus):not(:placeholder-shown) {
+#editInventoryForm input:invalid:not(:focus):not(:placeholder-shown),
+#deleteInventoryForm input:invalid:not(:focus):not(:placeholder-shown) { /* <-- ADDED DELETE FORM ID */
   border-color: var(--error-color);
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
 /* --- Submit Button --- */
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm button[type="submit"], 
 #addInventoryForm button[type="submit"],
-#editInventoryForm button[type="submit"] {
+#editInventoryForm button[type="submit"] { 
   width: 50%;
   padding: 12px;
   margin-top: 25px;
@@ -845,10 +866,10 @@ INVENTORY MANAGEMENT FORMS
   margin: 1rem auto;
 }
 
-/* Updated to include the new edit form */
+/* Updated to include the new edit and delete forms */
 #addClassForm button[type="submit"]:hover, 
 #addInventoryForm button[type="submit"]:hover,
-#editInventoryForm button[type="submit"]:hover {
+#editInventoryForm button[type="submit"]:hover { 
   background-color: #0f581f; 
   transform: translateY(-1px);
 }
@@ -904,6 +925,27 @@ INVENTORY MANAGEMENT FORMS
 }
 #classificationList option:not(:first-child) {
   color: #333;
+}
+
+#deleteInventoryForm button[type="submit"] {
+  width: 50%;
+  padding: 12px;
+  margin-top: 25px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: block;
+  margin: 1rem auto;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  background-color: #dc3545; /* Red color for caution */
+}
+
+#deleteInventoryForm button[type="submit"]:hover {
+  background-color: #c82333; /* Darker red on hover */
+  transform: translateY(-1px);
 }
 
 /*
