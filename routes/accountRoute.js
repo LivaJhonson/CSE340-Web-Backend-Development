@@ -1,47 +1,70 @@
+// Needed Resources 
 const express = require("express")
 const router = new express.Router()
-const utilities = require("../utilities/")
 const accountController = require("../controllers/accountController")
-const regValidate = require('../utilities/account-validation')
+const utilities = require("../utilities/")
+const regValidate = require("../utilities/account-validation")
 
-// GET login route
+// Route to build account management view (Requires login)
+router.get("/", 
+    utilities.checkLogin, // Ensure user is logged in
+    utilities.handleErrors(accountController.buildAccountManagement)
+)
+
+// Route to build login view
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
-// NOTE: The previous POST /login route has been replaced below.
-
-// GET registration route
+// Route to build registration view
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
-// POST registration route
-// 4: Route to process the registration form submission
-// Process the registration data
+// Route to process the registration submission
 router.post(
     "/register",
     regValidate.registationRules(),
     regValidate.checkRegData,
     utilities.handleErrors(accountController.registerAccount)
 )
- 
-// *****************************************************************
-// JWT and Cookie REQUIREMENT: Process the login request
-// This route now applies validation rules and calls the new controller function.
-// *****************************************************************
+
+// Route to process the login attempt (POST to login)
+// Note: The login POST route should use the login rules and check data before processing
 router.post(
-  "/login",
-  regValidate.loginRules(), // Validation rules for login data
-  regValidate.checkLoginData, // Check for and handle validation errors
-  utilities.handleErrors(accountController.accountLogin) // New function to authenticate and set JWT
+    "/login",
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
+    utilities.handleErrors(accountController.accountLogin)
 )
 
-// *****************************************************************
-// JWT and Cookie REQUIREMENT: Route to deliver the Account Management view
-// This route is the redirect target after a successful login.
-// *****************************************************************
-router.get(
-    "/",
-    // Middleware to check if the user is logged in before allowing access to the view
+// Task 6: Route to handle logout (clears JWT cookie)
+router.get("/logout", utilities.handleErrors(accountController.accountLogout))
+
+
+// ------------------------------------
+// TASK 5 ROUTES: Account Update & Password Change
+// ------------------------------------
+
+// Route 1 (FIX): GET to deliver the account update form
+// This is likely the route that was missing and caused the 404
+router.get("/update", 
     utilities.checkLogin, 
-    utilities.handleErrors(accountController.buildAccountManagement)
+    utilities.handleErrors(accountController.buildAccountUpdate)
 )
- 
-module.exports = router
+
+// Route 2: POST to process the account details update (name, email)
+router.post(
+    "/update/details", 
+    utilities.checkLogin, 
+    regValidate.updateDetailsRules(),
+    regValidate.checkUpdateDetails,
+    utilities.handleErrors(accountController.updateAccount)
+)
+
+// Route 3: POST to process the password change
+router.post(
+    "/update/password", 
+    utilities.checkLogin, 
+    regValidate.updatePasswordRules(),
+    regValidate.checkUpdatePassword,
+    utilities.handleErrors(accountController.updatePassword)
+)
+
+module.exports = router;
