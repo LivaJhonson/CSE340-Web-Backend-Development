@@ -1,48 +1,200 @@
-<!-- 
-    ================================================
-    1. ACCOUNT DETAILS UPDATE FORM (Name and Email)
-    ================================================
--->
-<form action="/account/update/details" method="post" id="updateForm">
-    <h2>Update Account Details</h2>
-    <% if (title && title != "Edit Account") { %>
-        <p>You can update your first name, last name, and email.</p>
-    <% } %>
+<%# Account Update EJS View %>
+
+<style>
+    /* --- Account Update Page Styles --- */
     
-    <label for="account_firstname">First Name</label>
-    <input type="text" name="account_firstname" id="account_firstname" required
-        value="<%= locals.accountData.account_firstname %>">
-
-    <label for="account_lastname">Last Name</label>
-    <input type="text" name="account_lastname" id="account_lastname" required
-        value="<%= locals.accountData.account_lastname %>">
-
-    <label for="account_email">Email Address</label>
-    <input type="email" name="account_email" id="account_email" required
-        value="<%= locals.accountData.account_email %>">
+    .account-update-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #f7f7f7;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
     
-    <!-- MANDATORY: Hidden input to pass the account ID to the controller -->
-    <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
-
-    <button type="submit" class="button">Update Account Details</button>
-</form>
-
-<!-- 
-    ================================================
-    2. PASSWORD UPDATE FORM (Separate Action)
-    ================================================
--->
-<form action="/account/update/password" method="post" id="passwordForm">
-    <h2>Update Password</h2>
-    <p>Passwords must be at least 12 characters and contain 1 number, 1 capital letter, and 1 special character.</p>
+    .account-update-container h1 {
+        font-size: 2em;
+        color: #0d47a1; /* Primary brand color */
+        text-align: center;
+        margin-bottom: 10px;
+    }
     
-    <label for="account_password">New Password</label>
-    <!-- Note: Password field should NOT be pre-filled -->
-    <input type="password" name="account_password" id="account_password" required
-        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9\s])(?!.*\s).{12,}$">
-
-    <!-- MANDATORY: Hidden input to pass the account ID to the controller -->
-    <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
-
-    <button type="submit" class="button">Update Password</button>
-</form>
+    .account-update-container .notice-message {
+        text-align: center;
+        color: #555;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+    }
+    
+    .error-notice {
+        list-style: none;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #ffebee; /* Light red background */
+        border: 1px solid #c62828; /* Dark red border */
+        color: #c62828;
+        border-radius: 8px;
+    }
+    
+    .form-section-title {
+        font-size: 1.5em;
+        color: #333;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #0d47a1;
+    }
+    
+    /* --- Form Styling --- */
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px 0;
+    }
+    
+    label {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: -10px;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1em;
+        width: 100%;
+        box-sizing: border-box; /* Ensures padding doesn't affect total width */
+        transition: border-color 0.3s;
+    }
+    
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        border-color: #0d47a1;
+        outline: none;
+        box-shadow: 0 0 5px rgba(13, 71, 161, 0.3);
+    }
+    
+    /* --- Button Styling --- */
+    
+    .form-button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    
+    /* Primary Button (Account Update) */
+    .primary-action {
+        background-color: #0d47a1; /* Blue */
+        color: white;
+    }
+    
+    .primary-action:hover {
+        background-color: #083783;
+        transform: translateY(-2px);
+    }
+    
+    /* Secondary Button (Password Change) */
+    .secondary-action {
+        background-color: #1e88e5; /* Lighter Blue */
+        color: white;
+    }
+    
+    .secondary-action:hover {
+        background-color: #0b66c4;
+        transform: translateY(-2px);
+    }
+    
+    /* Disclaimer text for Account Update form */
+    .disclaimer {
+        font-size: 0.8em;
+        color: #777;
+        margin-top: -10px;
+        padding-top: 5px;
+        border-top: 1px dashed #ddd;
+    }
+    
+    /* --- Responsive adjustments --- */
+    @media (max-width: 650px) {
+        .account-update-container {
+            margin: 20px;
+            padding: 20px;
+        }
+    }
+    </style>
+    
+    <div class="account-update-container">
+        <%# Page Title %>
+        <h1><%= title %></h1>
+    
+        <%# Flash Messages %>
+        <% if (messages && messages.notice) { %>
+            <p class="notice-message"><%= messages.notice %></p>
+        <% } %>
+    
+        <%# Error List %>
+        <%- messages() %>
+        <% if (errors) { %>
+            <ul class="error-notice">
+                <% errors.array().forEach(error => { %>
+                    <li><%= error.msg %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+    
+        <%# ================================================ %>
+        <%# 1. ACCOUNT DETAILS UPDATE FORM (Name and Email) %>
+        <%# ================================================ %>
+        
+        <h2 class="form-section-title">Update Account Details</h2>
+        
+        <form action="/account/update/details" method="post" id="updateForm">
+            <label for="account_firstname">First Name</label>
+            <input type="text" name="account_firstname" id="account_firstname" required
+                value="<%= account_firstname %>">
+    
+            <label for="account_lastname">Last Name</label>
+            <input type="text" name="account_lastname" id="account_lastname" required
+                value="<%= account_lastname %>">
+    
+            <label for="account_email">Email Address</label>
+            <input type="email" name="account_email" id="account_email" required
+                value="<%= account_email %>">
+            
+            <p class="disclaimer">Note: Changing your email will require a new login.</p>
+    
+            <%# MANDATORY: Hidden input to pass the account ID to the controller %>
+            <input type="hidden" name="account_id" value="<%= account_id %>">
+    
+            <button type="submit" class="form-button primary-action">Update Account Details</button>
+        </form>
+    
+        <%# ================================================ %>
+        <%# 2. PASSWORD UPDATE FORM (Separate Action) %>
+        <%# ================================================ %>
+        
+        <h2 class="form-section-title">Update Password</h2>
+        <p class="disclaimer">Passwords must be at least 12 characters and contain 1 number, 1 capital letter, and 1 special character.</p>
+        
+        <form action="/account/update/password" method="post" id="passwordForm">
+            <label for="account_password">New Password</label>
+            <%# Note: Password field should NOT be pre-filled %>
+            <input type="password" name="account_password" id="account_password" required
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9\s])(?!.*\s).{12,}$">
+    
+            <%# MANDATORY: Hidden input to pass the account ID to the controller %>
+            <input type="hidden" name="account_id" value="<%= account_id %>">
+    
+            <button type="submit" class="form-button secondary-action">Update Password</button>
+        </form>
+    </div>
