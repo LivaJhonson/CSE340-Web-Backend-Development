@@ -1,130 +1,68 @@
-// Needed Resources 
+// Needed resources
 const express = require("express")
 const router = new express.Router()
 const invController = require("../controllers/invController")
-const Util = require("../utilities/") // <-- FIXED IMPORT NAME
+const utilities = require("../utilities/")
+// Import the validation file
 const invValidate = require("../utilities/inv-validation")
 
-/* **********************************************
- * Inventory by Classification View
- * ********************************************** */
-router.get(
-  "/type/:classificationId",
-  Util.handleErrors(invController.buildByClassificationId) 
-)
+// Route to build inventory by classification view
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId))
 
-/* **********************************************
- * Inventory Detail View
- * ********************************************** */
-router.get(
-  "/detail/:invId",
-  Util.handleErrors(invController.buildByInvId) 
-)
+// Route to build inventory detail view
+router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId))
 
-/* **********************************************
- * Intentional 500 Error Route
- * ********************************************** */
-router.get(
-  "/throwerror",
-  Util.handleErrors(invController.throwIntentionalError) 
-)
+// Route to build inventory management view
+router.get("/", utilities.handleErrors(invController.buildManagementView))
 
-/* **********************************************
- * AJAX Route – Returns Inventory as JSON
- * ********************************************** */
-router.get(
-  "/getInventory/:classification_id",
-  Util.handleErrors(invController.getInventoryJSON) 
-)
+// Route to build the new classification form view
+router.get("/add-classification", utilities.handleErrors(invController.buildNewClassification))
 
-/* **********************************************
- * Management View (Protected)
- * ********************************************** */
-router.get(
-  "/", 
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  Util.handleErrors(invController.buildManagementView) 
-)
-
-/* **********************************************
- * Add Classification (Protected)
- * ********************************************** */
-router.get(
-  "/add-classification",
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  Util.handleErrors(invController.buildNewClassification) 
-)
-
+// Route to process the new classification addition
 router.post(
-  "/add-classification",
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  invValidate.classificationRules(),
-  invValidate.checkClassificationData,
-  Util.handleErrors(invController.addClassification) 
+    "/add-classification",
+    invValidate.classificationRules(),
+    invValidate.checkClassificationData,
+    utilities.handleErrors(invController.addClassification)
 )
 
-/* **********************************************
- * Add Inventory Item (Protected)
- * ********************************************** */
-router.get(
-  "/add-inventory",
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  Util.handleErrors(invController.buildNewInventory) 
-)
+// Route to build the new inventory form view
+router.get("/add-inventory", utilities.handleErrors(invController.buildNewInventory))
 
+// Route to process the new inventory addition
 router.post(
-  "/add-inventory",
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  invValidate.inventoryRules(),
-  invValidate.checkInventoryData,
-  Util.handleErrors(invController.addInventory) 
+    "/add-inventory",
+    // Uses the rules defined for adding new inventory
+    invValidate.addInventoryRules(),
+    // Uses the check function that handles sticky data and error rendering for Add/Edit
+    invValidate.checkInventoryData,
+    utilities.handleErrors(invController.addInventory)
 )
 
-/* **********************************************
- * Edit Inventory (Protected)
- * ********************************************** */
-router.get(
-  "/edit/:inv_id",
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  Util.handleErrors(invController.editInventoryView) 
-)
+// Route to get inventory as JSON (for management view)
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
-/* **********************************************
- * Post Route for Update Inventory Data (Protected)
- * ********************************************** */
+// Route to build the edit inventory view
+router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView))
+
+// Route to update inventory data
 router.post(
-  "/update",
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  invValidate.inventoryRules(),
-  invValidate.checkUpdateData, // <-- Validation middleware
-  Util.handleErrors(invController.updateInventory) // <-- Controller function
+    "/update/",
+    // Uses the rules defined for adding/editing inventory
+    invValidate.addInventoryRules(),
+    // Uses the check function specific for updates (ensures redirection to edit view on error)
+    invValidate.checkUpdateData,
+    utilities.handleErrors(invController.updateInventory)
 )
 
-/* **********************************************
- * Delete Inventory Routes (Protected)
- * ********************************************** */
-// Route to deliver the delete confirmation view (Step 1)
-router.get(
-  "/delete/:inv_id",
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  Util.handleErrors(invController.buildDeleteView) // Controller function for confirmation view
-)
+// Route to build the delete confirmation view
+router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteView))
 
-// Post Route to carry out the delete process (Step 2)
-router.post(
-  "/delete",
-  Util.checkLogin, 
-  Util.checkAuthorization, 
-  // NOTE: No validation rules needed for delete as only inv_id is processed
-  Util.handleErrors(invController.deleteItem) // Controller function to execute delete
-)
+// Route to process the delete action
+router.post("/delete", utilities.handleErrors(invController.deleteItem))
+
+// Intentional 500 error route (for testing)
+router.get("/intentional-error", utilities.handleErrors(invController.throwIntentionalError))
+
 
 module.exports = router

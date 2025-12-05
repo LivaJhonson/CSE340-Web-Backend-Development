@@ -45,9 +45,9 @@ validate.checkClassificationData = async (req, res, next) => {
 }
 
 /* **********************************
- * Inventory Item Rules
+ * Inventory Item Rules (Used for Adding)
  * ********************************* */
-validate.inventoryRules = () => {
+validate.addInventoryRules = () => {
   return [
     body("classification_id")
       .isInt({ min: 1 })
@@ -103,7 +103,7 @@ validate.inventoryRules = () => {
 }
 
 /* ************************************
- * Check inventory data and return errors
+ * Check inventory data and return errors (Used for Adding)
  * ********************************** */
 validate.checkInventoryData = async (req, res, next) => {
   const {
@@ -123,13 +123,16 @@ validate.checkInventoryData = async (req, res, next) => {
   let errors = validationResult(req)
 
   if (!errors.isEmpty()) {
+    // FIX: Add the flash message here to inform the user of errors
+    req.flash("notice", "Please provide valid values for all fields.")
+
     let nav = await utilities.getNav()
     const classificationSelect = await utilities.buildClassificationList(classification_id)
 
     let viewName
     let titleName
 
-    // Determine which view to render
+    // Determine which view to render (if inv_id is present, it's an edit attempt)
     if (inv_id) {
       viewName = "./inventory/edit-inventory"
       titleName = "Edit " + inv_make + " " + inv_model
@@ -185,7 +188,7 @@ validate.checkUpdateData = async (req, res, next) => {
   let errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    // 🚩 FIX: Add the flash message here to inform the user of errors
+    // Add the flash message here to inform the user of errors
     req.flash("notice", "Please correct the errors and try again.") 
 
     let nav = await utilities.getNav()

@@ -28,7 +28,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 }
 
 /* ***************************
- * Build inventory by inventory Id view
+ * Build inventory by inventory Id View
  * ************************** */
 invCont.buildByInvId = async function (req, res, next) {
   const inv_id = req.params.invId
@@ -50,7 +50,7 @@ invCont.buildByInvId = async function (req, res, next) {
 }
 
 /* ***************************
- * Intentional 500 Error Test (Assignment 3, Task 3)
+ * Intentional 500 Error Test (For Assignment 3, Task 3)
  * ************************** */
 invCont.throwIntentionalError = async function (req, res, next) {
   throw new Error("This is an intentional 500 server error test for Assignment 3.")
@@ -94,8 +94,9 @@ invCont.addClassification = async function (req, res) {
   if (classResult) {
     req.flash("notice", `The new classification "${classification_name}" was successfully added.`)
     let nav = await utilities.getNav()
-    const classificationSelect = await utilities.buildClassificationList()
+    const classificationSelect = await utilities.buildClassificationList() 
 
+    // Redirect to the management view, which requires reloading the nav and classification list
     res.status(201).render("./inventory/management", {
       title: "Inventory Management",
       nav,
@@ -103,7 +104,8 @@ invCont.addClassification = async function (req, res) {
       classificationSelect,
     })
   } else {
-    req.flash("error", "Sorry, the new classification addition failed.")
+    // This else block is reached only if the database insert fails (not validation)
+    req.flash("error", "Sorry, the new classification addition failed due to a database error.")
     let nav = await utilities.getNav()
 
     res.status(501).render("./inventory/add-classification", {
@@ -142,18 +144,28 @@ invCont.buildNewInventory = async function (req, res, next) {
 
 /* ***************************
  * Process New Inventory (Task 3)
+ * NOTE: Validation and error handling is now done in inv-validation.js
  * ************************** */
 invCont.addInventory = async function (req, res) {
   const {
-    inv_make, inv_model, inv_year, inv_description, inv_image,
-    inv_thumbnail, inv_price, inv_miles, inv_color, classification_id
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
   } = req.body
 
-  // Sanitize number fields
-  const sanitizedInvYear = inv_year === '' ? null : inv_year
-  const sanitizedInvPrice = inv_price === '' ? null : inv_price
-  const sanitizedInvMiles = inv_miles === '' ? null : inv_miles
-  const sanitizedClassificationId = classification_id === '' ? null : classification_id
+  // Sanitize number fields by converting empty strings to null for INSERT
+  const sanitizedInvYear = inv_year === '' ? null : inv_year;
+  const sanitizedInvPrice = inv_price === '' ? null : inv_price;
+  const sanitizedInvMiles = inv_miles === '' ? null : inv_miles;
+  const sanitizedClassificationId = classification_id === '' ? null : classification_id;
+
 
   const invResult = await invModel.addInventory(
     inv_make,
@@ -171,7 +183,7 @@ invCont.addInventory = async function (req, res) {
   if (invResult) {
     req.flash("notice", `The new vehicle, ${inv_make} ${inv_model}, was successfully added.`)
     let nav = await utilities.getNav()
-    const classificationSelect = await utilities.buildClassificationList()
+    const classificationSelect = await utilities.buildClassificationList() 
 
     res.status(201).render("./inventory/management", {
       title: "Inventory Management",
@@ -180,10 +192,12 @@ invCont.addInventory = async function (req, res) {
       classificationSelect,
     })
   } else {
-    req.flash("error", "Sorry, the vehicle addition failed.")
+    // This else block is only reached if the database insert fails (not validation)
+    req.flash("error", "Sorry, the vehicle addition failed due to a database error.")
     let nav = await utilities.getNav()
     let classificationSelect = await utilities.buildClassificationList(classification_id)
 
+    // Re-render the form with sticky data on database failure
     res.status(501).render("./inventory/add-inventory", {
       title: "Add New Vehicle",
       nav,
@@ -231,7 +245,8 @@ invCont.editInventoryView = async function (req, res, next) {
     inv_description: itemData.inv_description,
     inv_image: itemData.inv_image,
     inv_thumbnail: itemData.inv_thumbnail,
-    inv_price: itemData.inv_price.toString().replace(/,/g, ""),
+    // Ensure price is string and remove commas for form input
+    inv_price: itemData.inv_price.toString().replace(/,/g, ""), 
     inv_miles: itemData.inv_miles,
     inv_color: itemData.inv_color,
     classification_id: itemData.classification_id,
@@ -240,21 +255,29 @@ invCont.editInventoryView = async function (req, res, next) {
 
 /* ***************************
  * Update Inventory Data
+ * NOTE: Validation and error handling is now done in inv-validation.js
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
-  let nav = await utilities.getNav()
-
   const {
-    inv_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail,
-    inv_price, inv_year, inv_miles, inv_color, classification_id,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
   } = req.body
 
-  // Sanitize numbers
-  const sanitizedInvYear = inv_year === '' ? null : inv_year
-  const sanitizedInvPrice = inv_price === '' ? null : inv_price
-  const sanitizedInvMiles = inv_miles === '' ? null : inv_miles
-  const sanitizedClassificationId = classification_id === '' ? null : classification_id
-
+  // Sanitize number fields by converting empty strings to null for UPDATE
+  const sanitizedInvYear = inv_year === '' ? null : inv_year;
+  const sanitizedInvPrice = inv_price === '' ? null : inv_price;
+  const sanitizedInvMiles = inv_miles === '' ? null : inv_miles;
+  const sanitizedClassificationId = classification_id === '' ? null : classification_id;
+  
   const updateResult = await invModel.updateInventory(
     inv_id,
     inv_make,
@@ -274,14 +297,16 @@ invCont.updateInventory = async function (req, res, next) {
     req.flash("notice", `The ${itemName} was successfully updated.`)
     res.redirect("/inv/")
   } else {
+    // This else block is only reached if the database update fails (not validation)
     const classificationSelect = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`
-
-    req.flash("notice", "Sorry, the update failed.")
+    req.flash("notice", "Sorry, the update failed due to a database error.")
+    
+    // Re-render the form with sticky data on database failure
     res.status(501).render("inventory/edit-inventory", {
       title: "Edit " + itemName,
-      nav,
-      classificationSelect,
+      nav: await utilities.getNav(), // Must reload nav
+      classificationSelect: classificationSelect,
       errors: null,
       inv_id,
       inv_make,
@@ -293,7 +318,8 @@ invCont.updateInventory = async function (req, res, next) {
       inv_price,
       inv_miles,
       inv_color,
-      classification_id
+      classification_id,
+      messages: res.locals.messages,
     })
   }
 }
@@ -329,7 +355,6 @@ invCont.buildDeleteView = async function (req, res, next) {
  * Process delete inventory data
  * ************************** */
 invCont.deleteItem = async function (req, res, next) {
-  let nav = await utilities.getNav()
   const { inv_id } = req.body
   const deleteInvId = parseInt(inv_id)
 
