@@ -2,109 +2,109 @@
 const express = require("express")
 const router = new express.Router()
 const invController = require("../controllers/invController")
-const utilities = require("../utilities/")
+const Util = require("../utilities/") // <-- FIXED IMPORT NAME
 const invValidate = require("../utilities/inv-validation")
 
 /* **********************************************
  * Inventory by Classification View
- ********************************************** */
+ * ********************************************** */
 router.get(
   "/type/:classificationId",
-  utilities.handleErrors(invController.buildByClassificationId)
+  Util.handleErrors(invController.buildByClassificationId) 
 )
 
 /* **********************************************
  * Inventory Detail View
- ********************************************** */
+ * ********************************************** */
 router.get(
   "/detail/:invId",
-  utilities.handleErrors(invController.buildByInvId)
+  Util.handleErrors(invController.buildByInvId) 
 )
 
 /* **********************************************
  * Intentional 500 Error Route
- ********************************************** */
+ * ********************************************** */
 router.get(
   "/throwerror",
-  utilities.handleErrors(invController.throwIntentionalError)
+  Util.handleErrors(invController.throwIntentionalError) 
 )
 
 /* **********************************************
  * AJAX Route – Returns Inventory as JSON
- ********************************************** */
+ * ********************************************** */
 router.get(
   "/getInventory/:classification_id",
-  utilities.handleErrors(invController.getInventoryJSON)
+  Util.handleErrors(invController.getInventoryJSON) 
 )
 
 /* **********************************************
  * Management View (Protected)
- ********************************************** */
+ * ********************************************** */
 router.get(
   "/", 
-  utilities.checkLogin,
-  utilities.checkAuthorization,
-  utilities.handleErrors(invController.buildManagementView)
+  Util.checkLogin, 
+  Util.checkAuthorization, 
+  Util.handleErrors(invController.buildManagementView) 
 )
 
 /* **********************************************
  * Add Classification (Protected)
- ********************************************** */
+ * ********************************************** */
 router.get(
   "/add-classification",
-  utilities.checkLogin,
-  utilities.checkAuthorization,
-  utilities.handleErrors(invController.buildNewClassification)
+  Util.checkLogin, 
+  Util.checkAuthorization, 
+  Util.handleErrors(invController.buildNewClassification) 
 )
 
 router.post(
   "/add-classification",
-  utilities.checkLogin,
-  utilities.checkAuthorization,
+  Util.checkLogin, 
+  Util.checkAuthorization, 
   invValidate.classificationRules(),
   invValidate.checkClassificationData,
-  utilities.handleErrors(invController.addClassification)
+  Util.handleErrors(invController.addClassification) 
 )
 
 /* **********************************************
  * Add Inventory Item (Protected)
- ********************************************** */
+ * ********************************************** */
 router.get(
   "/add-inventory",
-  utilities.checkLogin,
-  utilities.checkAuthorization,
-  utilities.handleErrors(invController.buildNewInventory)
+  Util.checkLogin, 
+  Util.checkAuthorization, 
+  Util.handleErrors(invController.buildNewInventory) 
 )
 
 router.post(
   "/add-inventory",
-  utilities.checkLogin,
-  utilities.checkAuthorization,
+  Util.checkLogin, 
+  Util.checkAuthorization, 
   invValidate.inventoryRules(),
   invValidate.checkInventoryData,
-  utilities.handleErrors(invController.addInventory)
+  Util.handleErrors(invController.addInventory) 
 )
 
 /* **********************************************
  * Edit Inventory (Protected)
- ********************************************** */
+ * ********************************************** */
 router.get(
   "/edit/:inv_id",
-  utilities.checkLogin,
-  utilities.checkAuthorization,
-  utilities.handleErrors(invController.editInventoryView)
+  Util.checkLogin, 
+  Util.checkAuthorization, 
+  Util.handleErrors(invController.editInventoryView) 
 )
 
 /* **********************************************
- * Update Inventory (Protected)
- ********************************************** */
+ * Post Route for Update Inventory Data (Protected)
+ * ********************************************** */
 router.post(
   "/update",
-  utilities.checkLogin,
-  utilities.checkAuthorization,
+  Util.checkLogin, 
+  Util.checkAuthorization, 
   invValidate.inventoryRules(),
-  invValidate.checkInventoryData,
-  utilities.handleErrors(invController.updateInventory)
+  invValidate.checkUpdateData, // <-- Validation middleware
+  Util.handleErrors(invController.updateInventory) // <-- Controller function
 )
 
 module.exports = router

@@ -103,7 +103,7 @@ validate.inventoryRules = () => {
 }
 
 /* ************************************
- * Check inventory data and return errors (FIXED)
+ * Check inventory data and return errors
  * ********************************** */
 validate.checkInventoryData = async (req, res, next) => {
   const {
@@ -157,6 +157,61 @@ validate.checkInventoryData = async (req, res, next) => {
       inv_color,
       classification_id,
 
+      messages: res.locals.messages,
+    })
+    return
+  }
+  next()
+}
+
+/* ************************************
+ * Check update data and return errors, directing to edit view
+ * ********************************** */
+validate.checkUpdateData = async (req, res, next) => {
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body
+
+  let errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    // 🚩 FIX: Add the flash message here to inform the user of errors
+    req.flash("notice", "Please correct the errors and try again.") 
+
+    let nav = await utilities.getNav()
+    const classificationSelect = await utilities.buildClassificationList(classification_id)
+    const itemName = inv_make + " " + inv_model
+
+    // Always render the edit view upon error
+    res.render("./inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      classificationSelect: classificationSelect,
+      errors,
+
+      // Sticky data
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+      
       messages: res.locals.messages,
     })
     return

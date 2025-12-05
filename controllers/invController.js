@@ -29,7 +29,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 
 /* ***************************
  * Build inventory by inventory Id View
- * *************************** */
+ * ************************** */
 invCont.buildByInvId = async function (req, res, next) {
   const inv_id = req.params.invId
   const data = await invModel.getInventoryById(inv_id)
@@ -229,7 +229,8 @@ invCont.editInventoryView = async function (req, res, next) {
     inv_description: itemData.inv_description,
     inv_image: itemData.inv_image,
     inv_thumbnail: itemData.inv_thumbnail,
-    inv_price: itemData.inv_price.toString().replace(/,/g, ""),
+    // Price must be converted/cleaned for the input field
+    inv_price: itemData.inv_price.toString().replace(/,/g, ""), 
     inv_miles: itemData.inv_miles,
     inv_color: itemData.inv_color,
     classification_id: itemData.classification_id,
@@ -237,25 +238,26 @@ invCont.editInventoryView = async function (req, res, next) {
 }
 
 /* ***************************
- * Process Inventory Update
+ * Update Inventory Data
  * ************************** */
-invCont.updateInventory = async function (req, res) {
+invCont.updateInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
   const {
     inv_id,
     inv_make,
     inv_model,
-    inv_year,
     inv_description,
     inv_image,
     inv_thumbnail,
     inv_price,
+    inv_year,
     inv_miles,
     inv_color,
-    classification_id
+    classification_id,
   } = req.body
 
   const updateResult = await invModel.updateInventory(
-    inv_id,
+    inv_id,  
     inv_make,
     inv_model,
     inv_description,
@@ -273,29 +275,25 @@ invCont.updateInventory = async function (req, res) {
     req.flash("notice", `The ${itemName} was successfully updated.`)
     res.redirect("/inv/")
   } else {
-    req.flash("error", "Sorry, the update failed.")
-
-    let nav = await utilities.getNav()
-    let classificationSelect = await utilities.buildClassificationList(classification_id)
+    const classificationSelect = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`
-
-    res.status(501).render("./inventory/edit-inventory", {
-      title: "Edit " + itemName,
-      nav,
-      classificationSelect,
-      errors: null,
-      messages: res.locals.messages,
-      inv_id,
-      inv_make,
-      inv_model,
-      inv_year,
-      inv_description,
-      inv_image,
-      inv_thumbnail,
-      inv_price,
-      inv_miles,
-      inv_color,
-      classification_id,
+    req.flash("notice", "Sorry, the update failed.")
+    res.status(501).render("inventory/edit-inventory", {
+    title: "Edit " + itemName,
+    nav,
+    classificationSelect: classificationSelect,
+    errors: null,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
     })
   }
 }
