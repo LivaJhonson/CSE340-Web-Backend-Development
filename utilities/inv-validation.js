@@ -12,8 +12,8 @@ validate.classificationRules = () => {
       .trim()
       .isLength({ min: 1 })
       .withMessage("Please provide a classification name.")
-      .matches(/^[A-Za-z0-9]+$/)
-      .withMessage("Classification name cannot contain spaces or special characters.")
+      .matches(/^[A-Za-z0-9\s-]+$/) 
+      .withMessage("Classification name can only contain letters, numbers, spaces, and hyphens.")
       .custom(async (classification_name) => {
         const classificationExists = await invModel.checkExistingClassification(classification_name)
         if (classificationExists) {
@@ -31,13 +31,14 @@ validate.checkClassificationData = async (req, res, next) => {
   let errors = validationResult(req)
 
   if (!errors.isEmpty()) {
+    // Flash message removed here.
     let nav = await utilities.getNav()
     res.render("./inventory/add-classification", {
       title: "Add New Classification",
       nav,
-      errors,
+      errors, 
       classification_name,
-      messages: res.locals.messages,
+      messages: res.locals.messages, 
     })
     return
   }
@@ -45,7 +46,7 @@ validate.checkClassificationData = async (req, res, next) => {
 }
 
 /* **********************************
- * Inventory Item Rules (Used for Adding)
+ * Inventory Item Rules (Used for Adding/Updating)
  * ********************************* */
 validate.addInventoryRules = () => {
   return [
@@ -66,34 +67,34 @@ validate.addInventoryRules = () => {
     body("inv_year")
       .trim()
       .isInt({ min: 1886, max: new Date().getFullYear() + 1 })
-      .withMessage("Year must be a valid four-digit number."),
+      .withMessage("Year must be a valid four-digit number (e.g., 2024)."),
 
     body("inv_description")
       .trim()
-      .isLength({ min: 10 })
-      .withMessage("Description must be at least 10 characters."),
+      .isLength({ min: 20 })
+      .withMessage("Description must be at least 20 characters."),
 
     body("inv_image")
       .trim()
       .matches(/^\/images\/vehicles\/.*$/)
-      .withMessage("Image path must be a valid path."),
+      .withMessage("Image path must start with '/images/vehicles/'."),
 
     body("inv_thumbnail")
       .trim()
       .matches(/^\/images\/vehicles\/.*-tn\..*$/)
-      .withMessage("Thumbnail path must be a valid path."),
+      .withMessage("Thumbnail path must be a valid path ending in '-tn.extension'."),
 
     body("inv_price")
       .trim()
       .isNumeric()
       .isFloat({ min: 0 })
-      .withMessage("Price must be a valid positive number."),
+      .withMessage("Price must be a valid positive number (e.g., 25000)."),
 
     body("inv_miles")
       .trim()
       .isNumeric()
       .isInt({ min: 0 })
-      .withMessage("Miles must be a valid positive integer."),
+      .withMessage("Miles must be a valid positive integer (e.g., 50000)."),
 
     body("inv_color")
       .trim()
@@ -123,16 +124,14 @@ validate.checkInventoryData = async (req, res, next) => {
   let errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    // FIX: Add the flash message here to inform the user of errors
-    req.flash("notice", "Please provide valid values for all fields.")
-
+    // Flash message removed here.
     let nav = await utilities.getNav()
     const classificationSelect = await utilities.buildClassificationList(classification_id)
 
     let viewName
     let titleName
 
-    // Determine which view to render (if inv_id is present, it's an edit attempt)
+    // Determine which view to render
     if (inv_id) {
       viewName = "./inventory/edit-inventory"
       titleName = "Edit " + inv_make + " " + inv_model
@@ -145,8 +144,8 @@ validate.checkInventoryData = async (req, res, next) => {
       title: titleName,
       nav,
       classificationSelect,
-      errors,
-
+      errors, 
+      
       // Sticky data
       inv_id,
       inv_make,
@@ -188,9 +187,7 @@ validate.checkUpdateData = async (req, res, next) => {
   let errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    // Add the flash message here to inform the user of errors
-    req.flash("notice", "Please correct the errors and try again.") 
-
+    // Flash message removed here.
     let nav = await utilities.getNav()
     const classificationSelect = await utilities.buildClassificationList(classification_id)
     const itemName = inv_make + " " + inv_model
@@ -200,7 +197,7 @@ validate.checkUpdateData = async (req, res, next) => {
       title: "Edit " + itemName,
       nav,
       classificationSelect: classificationSelect,
-      errors,
+      errors, 
 
       // Sticky data
       inv_id,
