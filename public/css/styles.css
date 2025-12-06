@@ -26,7 +26,7 @@ CSS VARIABLES & GLOBALS
   --invalid-border: #dc3545;
   
   /* Account Management Colors (for context) */
-  --acct-primary: #007bff;
+  --acct-primary: #006ee4;
   --acct-secondary: #6c757d;
   --acct-logout: #dc3545;
   --acct-success-bg: #d4edda;
@@ -1261,22 +1261,22 @@ MEDIA QUERIES
 }
 
 #inventoryDisplay td a[href*="edit"] {
-  color: #007bff;
-  border: 1px solid #007bff;
+  color: #0056b2;
+  border: 1px solid #0056b2;
 }
 
 #inventoryDisplay td a[href*="edit"]:hover {
-  background-color: #007bff;
+  background-color: #0056b2;
   color: white;
 }
 
 #inventoryDisplay td a[href*="delete"] {
-  color: #dc3545;
-  border: 1px solid #dc3545;
+  color: #a52834;
+  border: 1px solid #a52834;
 }
 
 #inventoryDisplay td a[href*="delete"]:hover {
-  background-color: #dc3545;
+  background-color: #a52834;
   color: white;
 }
 
@@ -1336,7 +1336,7 @@ form {
 
 label {
   font-weight: bold;
-  color: #333;
+  color: #b5b5b5;
   margin-bottom: -10px;
 }
 
@@ -1374,7 +1374,7 @@ button[type="submit"] {
 
 /* Primary Button (Account Update) */
 .primary-action {
-  background-color: #0d47a1; /* Blue */
+  background-color: #1c52a7; /* Blue */
   color: white;
 }
 
@@ -1385,12 +1385,12 @@ button[type="submit"] {
 
 /* Secondary Button (Password Change) */
 .secondary-action {
-  background-color: #1e88e5; /* Lighter Blue */
+  background-color: #104067; /* Lighter Blue */
   color: white;
 }
 
 .secondary-action:hover {
-  background-color: #0b66c4;
+  background-color: #0c477a;
   transform: translateY(-2px);
 }
 
