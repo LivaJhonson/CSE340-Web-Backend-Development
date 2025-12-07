@@ -184,6 +184,45 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
+/* ****************************************
+ * ADD TO: models/inventory-model.js (ensure you export this function)
+ * *************************************** */
+
+/* ******************************************************
+ * Get all inventory items based on search term and max price
+ * Database Interaction: Queries existing 'inventory' table
+ * ***************************************************** */
+async function getInventoryBySearchAndPrice(searchTerm, maxPrice) {
+  try {
+      const pool = require('../database/');
+
+      // Format the search term for case-insensitive partial matching
+      // The '%$1%' pattern allows searching for the term anywhere in the field
+      const formattedSearchTerm = `%${searchTerm}%`;
+
+      // SQL uses ILIKE (case-insensitive LIKE) for searching make, model, or description
+      // and filters by the price placeholder $2
+      const sql = `
+          SELECT
+              inv_id, inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color, classification_id, inv_image, inv_thumbnail
+          FROM
+              inventory
+          WHERE
+              (inv_make ILIKE $1 OR inv_model ILIKE $1 OR inv_description ILIKE $1)
+          AND
+              inv_price <= $2
+      `;
+      
+      // Best Practice: Use prepared statements for safe data handling
+      const data = await pool.query(sql, [formattedSearchTerm, maxPrice]);
+      return data.rows;
+
+  } catch (error) {
+      console.error("getInventoryBySearchAndPrice error: " + error);
+      throw error;
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
@@ -193,4 +232,5 @@ module.exports = {
   addInventory,
   updateInventory,
   deleteInventoryItem, 
+  getInventoryBySearchAndPrice //Additional Enhancement
 }

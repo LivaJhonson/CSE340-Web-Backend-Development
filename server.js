@@ -16,6 +16,8 @@ const utilities = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
 const accountRoute = require("./routes/accountRoute")
+// New Requirement: Import the new search route
+const searchRoute = require("./routes/searchRoute")
 // 4: Body-parser
 const bodyParser = require("body-parser")
 // JWT and Cookie REQUIREMENT: Require cookie-parser
@@ -75,6 +77,10 @@ app.use("/inv", inventoryRoute)
 
 // Account routes
 app.use("/account", accountRoute)
+
+// NEW ENHANCEMENT: Search routes
+// Directs requests starting with /search to the new searchRoute handler
+app.use("/search", searchRoute)
 
 // File Not Found Route
 app.use(async (req, res, next) => {

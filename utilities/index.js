@@ -12,6 +12,9 @@ Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
+  
+  // NEW ENHANCEMENT: Add Search link to the navigation
+  list += '<li><a href="/search" title="Search Inventory">Search</a></li>'
 
   data.rows.forEach((row) => {
     list += "<li>"
@@ -32,8 +35,10 @@ Util.getNav = async function (req, res, next) {
 
 /* **************************************
  * Build the classification view HTML
+ * NOTE: Renaming to buildInventoryGrid for generic use in search results.
+ * The function logic remains identical to the original buildClassificationGrid.
  * ************************************ */
-Util.buildClassificationGrid = async function (data) {
+Util.buildInventoryGrid = async function (data) {
   let grid
 
   if (data.length > 0) {
@@ -91,6 +96,7 @@ Util.buildClassificationGrid = async function (data) {
  * Build the inventory detail view HTML
  * ************************************ */
 Util.buildDetailPage = async function (vehicle) {
+// ... (The rest of Util.buildDetailPage remains unchanged)
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -135,6 +141,7 @@ Util.handleErrors =
  * Build the classification select list
  * ************************************ */
 Util.buildClassificationList = async function (classification_id = null) {
+// ... (The rest of Util.buildClassificationList remains unchanged)
   let data = await invModel.getClassifications()
 
   let classificationList =
@@ -163,6 +170,7 @@ Util.buildClassificationList = async function (classification_id = null) {
  * JWT/Cookie REQUIREMENT
  **************************************** */
 Util.checkJWTToken = (req, res, next) => {
+// ... (The rest of Util.checkJWTToken remains unchanged)
   if (req.cookies.jwt) {
     jwt.verify(
       req.cookies.jwt,
@@ -188,6 +196,7 @@ Util.checkJWTToken = (req, res, next) => {
  * Check Login Middleware
  * ************************************ */
 Util.checkLogin = (req, res, next) => {
+// ... (The rest of Util.checkLogin remains unchanged)
   if (res.locals.loggedin) {
     next()
   } else {
@@ -200,6 +209,7 @@ Util.checkLogin = (req, res, next) => {
  * Task 2: Check access for Employee or Admin
  **************************************** */
 Util.checkEmployeeOrAdminAccess = (req, res, next) => {
+// ... (The rest of Util.checkEmployeeOrAdminAccess remains unchanged)
   if (
     res.locals.loggedin &&
     (res.locals.accountData.account_type === "Employee" ||
@@ -219,6 +229,7 @@ Util.checkEmployeeOrAdminAccess = (req, res, next) => {
  * Original Role-Based Authorization
  **************************************** */
 Util.checkAuthorization = (req, res, next) => {
+// ... (The rest of Util.checkAuthorization remains unchanged)
   if (
     res.locals.loggedin &&
     (res.locals.accountData.account_type === "Employee" ||
@@ -235,6 +246,7 @@ Util.checkAuthorization = (req, res, next) => {
  * Build account link for header
  * ************************************ */
 Util.buildAccountLink = function (res) {
+// ... (The rest of Util.buildAccountLink remains unchanged)
   let link = ""
 
   if (res.locals.loggedin && res.locals.accountData) {

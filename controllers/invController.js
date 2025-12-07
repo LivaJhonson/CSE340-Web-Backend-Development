@@ -16,7 +16,8 @@ invCont.buildByClassificationId = async function (req, res, next) {
     throw new Error("No vehicles found for this classification.")
   }
 
-  const grid = await utilities.buildClassificationGrid(data)
+  // FIX: Renamed utility function call from buildClassificationGrid to buildInventoryGrid
+  const grid = await utilities.buildInventoryGrid(data) 
   let nav = await utilities.getNav()
   const className = data[0].classification_name
 

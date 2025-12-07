@@ -1,0 +1,19 @@
+<% /* ****************************************
+ * NEW FILE: views/inventory/search-results.ejs
+ * New View: Displays search results
+ * *************************************** */ %>
+ <% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<p class="search-summary">
+    Showing results for: <strong><%= searchTerm %></strong> 
+    <% if (maxPrice) { %>
+        (Max Price: $<%= new Intl.NumberFormat('en-US').format(maxPrice) %>)
+    <% } %>
+</p>
+
+<%# The inventoryGrid variable holds the HTML created by the utility function %>
+<%- inventoryGrid %>
